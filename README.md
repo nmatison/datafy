@@ -25,22 +25,22 @@ The main page will also include:
 
 ## Wireframes
 
-This app will consist of a single screen with a canvas displaying the objects in the center (wide screened), and a title and short explanation above it. The links to my github and the source data will be underneath the canvas.
+This app will consist of a single screen with a svg displaying the objects in the center (wide screened), and a title and short explanation above it. The links to my github and the source data will be underneath the svg.
 
-The canvas will start out with 6 main circles and each click on a specific circle will allow that circle to shoot out smaller circles of relative size. All circles will have a single line connecting them back to their parent circle.
+The svg will start out with 6 main circles and each click on a specific circle will allow that circle to shoot out smaller circles of relative size. All circles will have a single line connecting them back to their parent circle.
 
 ![example wire-frame](https://github.com/nmatison/datafy/blob/master/images/final-wire-frame.png)
 
 ###Need to keep in mind/look into: 
-Room will be an issue. The canvas will either have to be "enlarged" or other parent circles will have to close if a parent circle is selected. Could possibly shrink all circles when a parent expands by a fixed percentage. This would give the illusion that the canvas is enlarging.
+Room will be an issue. The svg will either have to be "enlarged" or other parent circles will have to close if a parent circle is selected. Could possibly shrink all circles when a parent expands by a fixed percentage. This would give the illusion that the svg is enlarging.
 
 
 ## Architecture and Technologies
 
 Datafy will use the following technologies:
 
-+ `D3.js` will be used for the overall structure and canvas logic.
-+ `HTML5` canvas for the rendering
++ `D3.js` will be used for the overall structure and svg logic.
++ `HTML5` for the basic structure
 + `CSS` to help with the page layout
 
 The project will also include the data files from [Spotify Charts](https://spotifycharts.com/regional/global/weekly/2018-08-10--2018-08-17) in csv form.
@@ -56,8 +56,8 @@ The project will also include the data files from [Spotify Charts](https://spoti
 
 ### Day1:
 - [ ] Finish walking through `d3` tutorials/readings.
-- [ ] Have the overall `html` structure (Title, Description, Canvas, and Links) set up.
-- [ ] Start the implmentation of the `canvas` with what was learned above. Get at least one parent circle rendering.
+- [ ] Have the overall `html` structure (Title, Description, svg, and Links) set up.
+- [ ] Start the implmentation of the `svg` with what was learned above. Get at least one parent circle rendering.
 - [ ] Get necessary data rendering on the parent circle.
 
 ### Day2:
