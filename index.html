@@ -14,37 +14,47 @@
 
 <script>
 
+var bodySelection = d3.select("body");
+var svgSelection = bodySelection.append("svg").attr("width", 50).attr("height", 50)
+var circleSelection = svgSelection.append("circle")
+                                  .attr("cx", 25)
+                                  .attr("cy", 25)
+                                  .attr("r", 25)
+                                  .style("fill", "purple")
+                                  .attr("March 2017", mean line)
+
 var feb2017;
 
 d3.csv('02-23--03-02.csv', function(data){
-    console.log(data);
-    dataset = data;
+    // data.forEach(function(d) {
+    //
+    // })
 });
 
-d3.csv('03-30--04-06.csv', function(data) {
-  console.log(data);
-  dataset = data;
-});
-
-d3.csv('04-27--05-04.csv', function(data) {
-  console.log(data)
-  dataset = data;
-});
-
-d3.csv('06-01--06-08.csv', function(data) {
-  console.log(data)
-  dataset = data;
-});
-
-d3.csv('06-29--07-06.csv', function(data) {
-  console.log(data)
-  dataset = data;
-});
-
-d3.csv('latest.csv', function(data){
-    console.log(data);
-    dataset = data;
-});
+// d3.csv('03-30--04-06.csv', function(data) {
+//   console.log(data);
+//   dataset = data;
+// });
+//
+// d3.csv('04-27--05-04.csv', function(data) {
+//   console.log(data)
+//   dataset = data;
+// });
+//
+// d3.csv('06-01--06-08.csv', function(data) {
+//   console.log(data)
+//   dataset = data;
+// });
+//
+// d3.csv('06-29--07-06.csv', function(data) {
+//   console.log(data)
+//   dataset = data;
+// });
+//
+// d3.csv('latest.csv', function(data){
+//     console.log(data);
+//     dataset = data;
+// });
 
 
 </script>
