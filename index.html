@@ -1,24 +1,36 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <link rel="stylesheet" href="./stylesheets/index.css"></link>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="reset.css"></link>
+    <link rel="stylesheet" type="text/css" href="index.css"></link>
     <meta charset="utf-8">
-    <title></title>
+    <title>Datafy</title>
   </head>
   <body>
-    <h1>hello</h1>
+    <div class="outter">
+      <div class="information">
+        <h1 class="title">hello</h1>
+        <p class="description">Datafy is a data visualization project that takes
+          weekly Spotify data from 03/30/2018 through 08/16/2018, and display it
+        as an interactive form. You can click on a circle to expand it
+        and reveal more information about the corresponding week.</p>
+      </div>
+      <div class="container">
+      </div>
+      <p> All information regarding spotify data from: <a href="https://spotifycharts.com/regional/">Spotify Charts</a></p>
+    </div>
   </body>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
 </html>
 
 
 <script>
 
 //playing around with simulation code found in a tutorial. Still learning.
-
+//
 // let width = 1000;
 // let height = 700;
-// let charge = -1;
+// // let charge = -1;
 //
 // var center = {x: width / 2, y: height / 2};
 // var forceStrength = 0.03;
@@ -30,16 +42,73 @@
 //   .force('charge', d3.forceManyBody().strength(charge))
 //   .on('tick', ticked);
 //
-var bodySelection = d3.select("body");
-var svgSelection = bodySelection.append("svg").attr("width", 50).attr("height", 50)
-var circleSelection = svgSelection.append("circle")
-                                  .attr("cx", 25)
-                                  .attr("cy", 25)
+//   simulation.stop();
+//
+// function charge(d) {
+//   return -Math.pow(d.radius, 2.0) * forceStrength;
+// }
+//
+// function ticked() {
+//     d3.selectAll("circle")
+//       .attr('cx', function (d) { return d.x; })
+//       .attr('cy', function (d) { return d.y; });
+//   }
+
+
+
+var svgContainer = d3.select(".container");
+var svgSelection = svgContainer.append("svg")
+                               .attr("width", 1000)
+                               .attr("height", 700)
+                               .append("g")
+d3.queue()
+  .defer(d3.csv, "02-23--03-02.csv")
+  .await(ready)
+
+  function ready (error, datapoints) {
+    var circles = svg.selectAll(".artist")
+    .data(datapoints)
+  }
+
+
+
+
+var circleSelection1 = svgSelection.append("circle")
+                                  .attr("cx", 450)
+                                  .attr("cy", 250)
                                   .attr("r", 25)
                                   .style("fill", "blue")
-                                  .attr()
 
-var feb2017;
+var circleSelection1 = svgSelection.append("circle")
+                                  .attr("cx", 350)
+                                  .attr("cy", 250)
+                                  .attr("r", 25)
+                                  .style("fill", "green")
+
+var circleSelection1 = svgSelection.append("circle")
+                                  .attr("cx", 850)
+                                  .attr("cy", 650)
+                                  .attr("r", 25)
+                                  .style("fill", "red")
+
+var circleSelection1 = svgSelection.append("circle")
+                                  .attr("cx", 950)
+                                  .attr("cy", 250)
+                                  .attr("r", 25)
+                                  .style("fill", "orange")
+
+var circleSelection1 = svgSelection.append("circle")
+                                  .attr("cx", 650)
+                                  .attr("cy", 50)
+                                  .attr("r", 25)
+                                  .style("fill", "purple")
+
+var circleSelection1 = svgSelection.append("circle")
+                                  .attr("cx", 350)
+                                  .attr("cy", 150)
+                                  .attr("r", 25)
+                                  .style("fill", "yellow")
+
 
 d3.csv('02-23--03-02.csv', function(data){
     // data.forEach(function(d) {

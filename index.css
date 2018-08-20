@@ -1,0 +1,22 @@
+.outter {
+  display flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 700px;
+  height: 1200px;
+}
+
+.information {
+  display: flex;
+  width: 100%;
+}
+
+.description {
+  width: 80%;
+}
+
+.title {
+  color: black;
+  width: 150px;
+}
