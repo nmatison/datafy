@@ -54,7 +54,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
     .on("click", function(d) {
       d.clicked = !d.clicked;
       if (d.clicked) {
-        console.log("open")
+        artists(d)
       } else {
         console.log("close")
       }
@@ -70,3 +70,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
         .attr('r', function(d) {return d.radius})
     }
  })
+
+function artists(parent) {
+  console.log(parent.data)
+}

@@ -3,8 +3,17 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 700px;
-  height: 1200px;
+  width: 100%;
+  height: 1000px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+svg {
+  background-color: #f7fcf7;
 }
 
 .information {
