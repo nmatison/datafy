@@ -37,7 +37,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
 
   simulation.nodes(data)
   .force("center", d3.forceCenter(width / 2, height / 2))
-  .force("charge", d3.forceManyBody().strength(-50))
+  .force("charge", d3.forceManyBody().strength(-14))
   .force("collide", d3.forceCollide(75).strength(0.45))
   .on("tick", ticked)
 
@@ -61,7 +61,9 @@ d3.csv("parent-nodes.csv").then(function(data) {
     });
 
     function enlarge(d) {
-      d3.select(this).attr('stroke', d.color.darker).attr('r', function(d) {return (d.radius*1.1)})
+      d3.select(this)
+      .attr('stroke', d.color.darker)
+      .attr('r', function(d) {return (d.radius*1.1)})
     }
 
     function normalize(d) {
@@ -72,5 +74,37 @@ d3.csv("parent-nodes.csv").then(function(data) {
  })
 
 function artists(parent) {
-  console.log(parent.data)
+  d3.csv(parent.data).then(function(data) {
+    let totalStreams = calcStreams(data);
+    let artistData = getArtists(data);
+    console.log(artistData)
+    // calcRadius(artistData, totalStreams);
+  })
+}
+
+
+
+function calcStreams(data) {
+  let totalStreams = 0
+  for (var i = 0; i < data.length; i++) {
+    totalStreams += parseInt(data[i].Streams)
+  }
+  return totalStreams;
+}
+
+
+function calcRadius(data, totalStreams) {
+  for (var i = 0; i < data.length; i++) {
+    data[i].r = (parseInt(data[i].Streams) / totalStreams) * 250
+  }
+}
+
+function getArtists(data) {
+  let artists = []
+  for (var i = 0; i < data.length; i++) {
+    if (artists.every((obj) => data[i].Artist !== obj.Artist)) {
+      artists.push({ "Artist": data[i].Artist, "Streams": data[i].Streams })
+    }
+  }
+  return artists
 }

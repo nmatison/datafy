@@ -5,7 +5,7 @@
 Datafy is a data visualization project that takes weekly Spotify data from the most recent six months, and display it as an interactive form.
 
 Users will open the page to circles representing each month's worth of data. Clicking on a circle will result in a chain of info becoming available through more circle objects:
-+ Clicking on one month will shoot out smaller data objects that represents the artists that made it on the top 200 chart for that week. Each circle's size being relative to the artist's position on the charts for that week.
++ Clicking on one month will shoot out smaller data objects that represents the top artists whose songs made it in the top 25 songs on the top 200 chart for that week. The top 200 is determined by the number of streams a song received that week. Each circle's size being relative to the artist's position on the charts for that week.
 + Clicking on the artist's circle will shoot out even more smaller data objects that display the song name along with the amount of times it had been streamed that week. There will also be a link to to listen to the song available on the circle. The circle size will be determined based on its number of streams.
 
 ## Functionality & MVP
@@ -31,7 +31,7 @@ The svg will start out with 6 main circles and each click on a specific circle w
 
 ![example wire-frame](https://github.com/nmatison/datafy/blob/master/images/final-wire-frame.png)
 
-###Need to keep in mind/look into: 
+###Need to keep in mind/look into:
 Room will be an issue. The svg will either have to be "enlarged" or other parent circles will have to close if a parent circle is selected. Could possibly shrink all circles when a parent expands by a fixed percentage. This would give the illusion that the svg is enlarging.
 
 
@@ -70,7 +70,7 @@ The project will also include the data files from [Spotify Charts](https://spoti
 - [ ] Already figured out the click handler and the sizing, so rinse and repeat for the songs circles (children of the artist circles)
 - [ ] Have song circles display size based on the percentage of streams they have of the total streams for all songs.
 
- ### Day4: 
+ ### Day4:
  - [ ] Have the correct data displaying on 100% of circles
  - [ ] Have the screen sizing issue resolved as noted under the WireFrame Section above.
  - [ ] Have everything properly styled on the `html` sheet.
