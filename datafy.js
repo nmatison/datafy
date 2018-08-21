@@ -78,7 +78,6 @@ function artists(parent) {
     let totalStreams = calcStreams(data);
     let artistData = getArtists(data);
     console.log(artistData)
-    // calcRadius(artistData, totalStreams);
   })
 }
 
@@ -100,11 +99,25 @@ function calcRadius(data, totalStreams) {
 }
 
 function getArtists(data) {
-  let artists = []
+  let artistData = []
+  let artistDataAndStreams;
   for (var i = 0; i < data.length; i++) {
-    if (artists.every((obj) => data[i].Artist !== obj.Artist)) {
-      artists.push({ "Artist": data[i].Artist, "Streams": data[i].Streams })
+    if (artistData.every((obj) => data[i].Artist !== obj.Artist)) {
+      artistData.push({ "Artist": data[i].Artist, "Streams": 0 })
+    }
+  } artistsAndStreams = getArtistStreams(data, artistData)
+  return artistsAndStreams
+}
+
+function getArtistStreams(data, artistData) {
+  for (var i = 0; i < artistData.length; i++) {
+    if (artistData[i].Streams === 0) {
+      for (var j = 0; j < data.length; j++) {
+        if (artistData[i].Artist === data[j].Artist) {
+          artistData[i].Streams += parseInt(data[j].Streams)
+        }
+      }
     }
   }
-  return artists
+  return artistData
 }
