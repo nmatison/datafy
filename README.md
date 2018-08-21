@@ -2,7 +2,7 @@
 
 ## Background and Overview
 
-Datafy is a data visualization project that takes weekly Spotify data from 03/30/2018 through 08/16/2018, and display it as an interactive form.
+Datafy is a data visualization project that takes weekly Spotify data from the most recent six months, and display it as an interactive form.
 
 Users will open the page to circles representing each month's worth of data. Clicking on a circle will result in a chain of info becoming available through more circle objects:
 + Clicking on one month will shoot out smaller data objects that represents the artists that made it on the top 200 chart for that week. Each circle's size being relative to the artist's position on the charts for that week.
@@ -52,16 +52,16 @@ The project will also include the data files from [Spotify Charts](https://spoti
 - [x] Grab all necessary data from Spotify Charts.
 - [x] Repo and `github` setup. Have a temp `node.js` server setup for easier testing.
 - [x] Play around with the csv data using `d3` and become accustomed to how it is used.
-- [ ] Begin researching more into `d3` and engaging in tutorials that will assist in leading me in the right direction.
+- [x] Begin researching more into `d3` and engaging in tutorials that will assist in leading me in the right direction.
 
 ### Day1:
-- [ ] Finish walking through `d3` tutorials/readings.
-- [ ] Have the overall `html` structure (Title, Description, svg, and Links) set up.
-- [ ] Start the implmentation of the `svg` with what was learned above. Get at least one parent circle rendering.
-- [ ] Get necessary data rendering on the parent circle.
+- [x] Finish walking through `d3` tutorials/readings.
+- [x] Have the overall `html` structure (Title, Description, svg, and Links) set up.
+- [x] Start the implmentation of the `svg` with what was learned above. Get at least one parent circle rendering.
+- [x] Get necessary data rendering on the parent circle.
 
 ### Day2:
-- [ ] Finish all of the parent circles
+- [x] Finish all of the parent circles
 - [ ] Get the `click handler` working properly to generate child circles.
 - [ ] Have children circle sizes(artist circles) display size based on their position on the charts.
 
