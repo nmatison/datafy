@@ -1,3 +1,5 @@
+
+
 let width = 1400
 let height = 750
 
@@ -9,6 +11,8 @@ let parentCircleData = [
   { "x_axis": 880, "y_axis": 150, "radius": 100, "color" : "orange", "text": "July 2018"},
   { "x_axis": 600, "y_axis": 450, "radius": 100, "color" : "yellow", "text": "August 2018"},
 ]
+
+const test = (simulation, ticked) => {
 
 let svg = d3.select(".container")
  .append("svg")
@@ -26,7 +30,7 @@ let circleAttributes = parentCircles
   .attr("cx", function (d) { return d.x_axis; })
   .attr("cy", function (d) { return d.y_axis; })
   .attr("r", function (d) { return d.radius; })
-  .style("fill", function(d) { return d.color; });
+  .style("fill", function(d) { return d.color; })
 
 let text = svg.selectAll("text")
   .data(parentCircleData)
@@ -34,19 +38,17 @@ let text = svg.selectAll("text")
   .append("text")
 
 let textLabels = text
-  .attr("x", function(d) {return (`${parseInt(d.x_axis) - 40}`)})
+  .attr("x", function(d) {return d.x_axis; })
   .attr("y", function(d) {return d.y_axis; })
   .text( function (d) { return d.text })
   .attr("font-family", "sans-serif")
   .attr("font-size", "20px")
   .attr("fill", "black")
+  .attr("text-anchor", "middle")
 
-let simulation = d3.forceSimulation()
-  .velocityDecay(0.2)
-  .force('x', d3.forceX(width / 2).strength(0.05))
-  .force('y', d3.forceY(height / 2).strength(0.05))
-  .force('charge', d3.forceManyBody().strength(0.05))
-  .on('tick', ticked);
+simulation.nodes(parentCircles)
+}
+
 
 function ticked() {
   parentCircles
@@ -54,10 +56,15 @@ function ticked() {
     .attr('cy', function (d) {return d.y_axis; })
 }
 
-simulation.nodes(parentCircles)
+let simulation = d3.forceSimulation()
+.force("center", d3.forceCenter(width / 2, height / 2))
+.force("charge", d3.forceManyBody().strength(-50))
+.force("collide", d3.forceCollide(10).strength(0.9))
+  simulation.stop();
 
 
 
+test(simulation, ticked)
 
 
 
