@@ -77,10 +77,27 @@ function artists(parent) {
   d3.csv(parent.data).then(function(data) {
     let totalStreams = calcStreams(data);
     let artistData = getArtists(data);
-    console.log(artistData)
-  })
+    calcRadius(artistData, totalStreams);
+    let links = createLinks(parent.id, artistData);
+    let graph = {"data": artistData, "links": links}
+    appendChildren(graph, parent)
+  });
 }
-
+  //   let artistLinks = svg.selectAll("link")
+  //     .data(graph.links)
+  //     .enter()
+  //     .append("line")
+  //     .attr("class", "artistLink")
+  //
+  //   let artistCircles = svg.selectAll("circle")
+  //     .data(graph.artistData)
+  //     .enter()
+  //     .append("circle")
+  //     .attr("cx", function (d) { return parent.x_axis; })
+  //     .attr("cy", function (d) { return parent.y_axis; })
+  //     .attr("r", function (d) { return d.radius; })
+  //     .style("fill", function (d) { return parent.color; })
+  // })
 
 
 function calcStreams(data) {
@@ -94,7 +111,7 @@ function calcStreams(data) {
 
 function calcRadius(data, totalStreams) {
   for (var i = 0; i < data.length; i++) {
-    data[i].r = (parseInt(data[i].Streams) / totalStreams) * 250
+    data[i].radius = (parseInt(data[i].Streams) / totalStreams) * 200
   }
 }
 
@@ -103,7 +120,8 @@ function getArtists(data) {
   let artistDataAndStreams;
   for (var i = 0; i < data.length; i++) {
     if (artistData.every((obj) => data[i].Artist !== obj.Artist)) {
-      artistData.push({ "Artist": data[i].Artist, "Streams": 0 })
+      artistId = `${data[i].Artist.slice(0, 2)}${data[i].Streams.slice(0, 4)}`
+      artistData.push({"id": artistId, "Artist": data[i].Artist, "Streams": 0 })
     }
   } artistsAndStreams = getArtistStreams(data, artistData)
   return artistsAndStreams
@@ -120,4 +138,25 @@ function getArtistStreams(data, artistData) {
     }
   }
   return artistData
+}
+
+function createLinks(parentId, childData) {
+  let links = []
+  for (var i = 0; i < childData.length; i++) {
+    links.push({"source": parentId, "target": childData[i].id})
+  }
+  return links;
+}
+
+function appendChildren(graph, parent) {
+  for (var i = 0; i < graph.data.length; i++) {
+    d3.select(".svg")
+    .append("circle")
+      .data(graph.data[i])
+      .enter()
+      .attr("cx", function (d) { return parent.x_axis; })
+      .attr("cy", function (d) { return parent.y_axis; })
+      .attr("r", function (d) { return d.radius; })
+      .style("fill", function (d) { return parent.color; })
+  }
 }
