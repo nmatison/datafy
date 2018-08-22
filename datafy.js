@@ -16,9 +16,11 @@ d3.csv("parent-nodes.csv").then(function(data) {
    .data(data)
    .enter()
    .append("circle")
+   .attr("class", "parentCircle")
    .attr("cx", function (d) { return d.x_axis; })
    .attr("cy", function (d) { return d.y_axis; })
    .attr("r", function (d) { return d.radius; })
+   .attr("id", function (d) {return d.id; })
    .style("fill", function (d) { return d.color; })
    .on('mouseover', enlarge)
    .on('mouseout', normalize)
@@ -54,7 +56,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
     .on("click", function(d) {
       d.clicked = !d.clicked;
       if (d.clicked) {
-        artists(d)
+        artists(d, data, textCircles)
       } else {
         console.log("close")
       }
@@ -73,7 +75,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
     }
  })
 
-function artists(parent) {
+function artists(parent, parentData, textCircles) {
   d3.csv(parent.data).then(function(data) {
     let totalStreams = calcStreams(data);
     let artistData = getArtists(data);
@@ -81,24 +83,10 @@ function artists(parent) {
     let links = createLinks(parent.id, artistData);
     let graph = {"data": artistData, "links": links}
     appendChildren(graph, parent)
+    simulation.restart()
+    artistSim(parentData.concat(graph.data), graph.links);
   });
 }
-  //   let artistLinks = svg.selectAll("link")
-  //     .data(graph.links)
-  //     .enter()
-  //     .append("line")
-  //     .attr("class", "artistLink")
-  //
-  //   let artistCircles = svg.selectAll("circle")
-  //     .data(graph.artistData)
-  //     .enter()
-  //     .append("circle")
-  //     .attr("cx", function (d) { return parent.x_axis; })
-  //     .attr("cy", function (d) { return parent.y_axis; })
-  //     .attr("r", function (d) { return d.radius; })
-  //     .style("fill", function (d) { return parent.color; })
-  // })
-
 
 function calcStreams(data) {
   let totalStreams = 0
@@ -141,22 +129,57 @@ function getArtistStreams(data, artistData) {
 }
 
 function createLinks(parentId, childData) {
-  let links = []
+  let links = [];
   for (var i = 0; i < childData.length; i++) {
-    links.push({"source": parentId, "target": childData[i].id})
+    links.push({"source": parentId, "target": childData[i].id, "key": i})
   }
+  console.log(links)
   return links;
 }
 
 function appendChildren(graph, parent) {
+
   for (var i = 0; i < graph.data.length; i++) {
     d3.select(".svg")
-    .append("circle")
-      .data(graph.data[i])
-      .enter()
-      .attr("cx", function (d) { return parent.x_axis; })
-      .attr("cy", function (d) { return parent.y_axis; })
-      .attr("r", function (d) { return d.radius; })
-      .style("fill", function (d) { return parent.color; })
+      .append("circle")
+      .attr("class", "artistCircle")
+
+    d3.select(".svg")
+    .append("line")
+    .attr("class", "artistLink")
   }
+
+  svg.selectAll(".artistCircle")
+    .data(graph.data)
+    .attr("cx", function (d) { return parent.x_axis; })
+    .attr("cy", function (d) { return parent.y_axis; })
+    .attr("r", function (d) { return d.radius; })
+    .style("fill", function (d) { return parent.color; })
+
+  svg.selectAll(".artistLink")
+    .data(graph.links)
+    .attr("stroke-width", 2)
+    .attr("stroke", "black")
+}
+
+function artistSim(data, links) {
+  simulation.nodes(data)
+  .force("center", d3.forceCenter(width / 2, height / 2))
+  .force("charge", d3.forceManyBody().strength(-14))
+  .force("collide", d3.forceCollide(75).strength(0.45))
+  .force("link", d3.forceLink(links).id(function(d) { return d.id; }).distance(40))
+  .on("tick", artistTicked)
+}
+
+function artistTicked() {
+  let artistCircles = svg.select(".artistCircle")
+  let links = svg.select(".artistLink")
+  artistCircles
+    .attr('cx', function (d) {return d.x; })
+    .attr('cy', function (d) {return d.y; })
+  links
+    .attr("x1", function(d) { return d.source.x; })
+    .attr("y1", function(d) { return d.source.y; })
+    .attr("x2", function(d) { return d.target.x; })
+    .attr("y2", function(d) { return d.target.y; })
 }
