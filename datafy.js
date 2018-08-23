@@ -4,7 +4,7 @@ let height = 750
 simulation = d3.forceSimulation()
 .force("center", d3.forceCenter(width / 2, height / 2))
 .force("charge", d3.forceManyBody().strength(-14))
-.force("collide", d3.forceCollide(75).strength(0.45))
+.force("collide", d3.forceCollide(70).strength(1))
 .alphaTarget(0.01)
 // .alpha(1)
 
@@ -17,8 +17,9 @@ let svg = d3.select(".container")
 .attr("class", "svg")
 
 d3.csv("parent-nodes.csv").then(function(data) {
+  parentData = data
  let parentCircles = svg.selectAll("circle")
-   .data(data)
+   .data(parentData)
    .enter()
    .append("circle")
    .attr("class", "parentCircle")
@@ -42,7 +43,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
     .attr("fill", "black")
     .attr("text-anchor", "middle")
 
-  simulation.nodes(data)
+  simulation.nodes(parentData)
       .on("tick", ticked)
 
   function ticked() {
@@ -58,9 +59,11 @@ d3.csv("parent-nodes.csv").then(function(data) {
     .on("click", function(d) {
       d.clicked = !d.clicked;
       if (d.clicked) {
-        artists(d, data, textCircles)
+        artists(d)
       } else {
-        console.log("close")
+        deleteArtistCircles()
+        simulation.nodes(data)
+            .on("tick", ticked)
       }
     });
 
@@ -77,50 +80,84 @@ d3.csv("parent-nodes.csv").then(function(data) {
     }
  })
 
- function artists(parent, parentData, textCircles) {
-   d3.csv(parent.data).then(function(data) {
-       let totalStreams = calcStreams(data);
-       calcRadius(data, totalStreams)
-       let links = createLinks(parent.id, data)
-       let graph = {"data": data, "links": links}
-       console.log(graph)
-       appendChildren(graph, parent)
-       simulation.nodes(data.concat(parentData))
-       // .force("link", d3.forceLink(links).id(function(d) { return d.id; }).distance(40))
-       .on("tick", ticked)
+ function songs(parent) {
+   deleteSongCircles()
+   let totalStreams = calcStreams(songData);
+   calcRadius(songData, totalStreams)
+     appendChildren(songData, parent)
+     simulation.nodes(songData.concat(artistData, parentData))
+     .force("center", d3.forceCenter(width / 2, height / 2))
+     .force("charge", d3.forceManyBody().strength(-14))
+     .force("collide", d3.forceCollide(75).strength(1))
+     .alphaTarget(0.01)
+     .on("tick", ticked)
 
-       function ticked() {
-         let circles = svg.selectAll("circle")
-         let text = svg.selectAll("text")
-         text
-         .attr('x', function (d) {return d.x; })
-         .attr('y', function (d) {return d.y; })
-         circles
-          .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
-          .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
-       }
-     })
+     function ticked() {
+       let circles = svg.selectAll("circle")
+       let text = svg.selectAll("text")
+
+       text
+       .attr('x', function (d) {return d.x; })
+       .attr('y', function (d) {return d.y; })
+       circles
+        .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
+     }
    }
+   // let links = createLinks(parent.id, data)
+   // , "links": links}
+   // let links = svg.selectAll("line")
+   // links
+   //  .attr("x1", function(d) { return d.source.x; })
+   //  .attr("y1", function(d) { return d.source.y; })
+   //  .attr("x2", function(d) { return d.target.x; })
+   //  .attr("y2", function(d) { return d.target.y; })
 
-// function artists(parent, parentData, textCircles) {
-//   d3.csv(parent.data).then(function(data) {
-//     let totalStreams = calcStreams(data);
-//     let artistData = getArtists(data);
-//     calcRadius(artistData, totalStreams);
-//     let links = createLinks(parent.id, artistData);
-//     let graph = {"data": artistData, "links": links}
-//     appendChildren(graph, parent)
-//     simulation.nodes(artistData)
-//     artistSim(graph.data, graph.links);
-//   });
-// }
+function artists(parent) {
+  deleteArtistCircles()
+  d3.csv(parent.data).then(function(data) {
+    songData = data
+    let totalStreams = calcStreams(data);
+    artistData = getArtists(data);
+    calcRadius(artistData, totalStreams);
+    appendChildren(artistData, parent)
+    svg.selectAll(".artistCircle")
+      .on("click", function(d) {
+        d.clicked = !d.clicked;
+        if (d.clicked) {
+          songs(d)
+        } else {
+          deleteSongCircles()
+          simulation.nodes(data)
+              .on("tick", ticked)
+        }
+      });
+    simulation.nodes(artistData.concat(parentData))
+    .force("center", d3.forceCenter(width / 2, height / 2))
+    .force("charge", d3.forceManyBody().strength(-14))
+    .force("collide", d3.forceCollide(75).strength(1))
+    .alphaTarget(0.01)
+    .on("tick", ticked)
+
+    function ticked() {
+      let circles = svg.selectAll("circle")
+      let text = svg.selectAll("text")
+
+      text
+      .attr('x', function (d) {return d.x; })
+      .attr('y', function (d) {return d.y; })
+      circles
+       .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
+       .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
+    }
+  });
+}
 
 function calcStreams(data) {
   let totalStreams = 0
   for (var i = 0; i < data.length; i++) {
     totalStreams += parseInt(data[i].Streams)
   }
-  console.log(totalStreams)
   return totalStreams;
 }
 
@@ -156,39 +193,48 @@ function getArtistStreams(data, artistData) {
   return artistData
 }
 
-function createLinks(parentId, childData) {
-  let links = [];
-  for (var i = 0; i < childData.length; i++) {
-    links.push({"source": parentId, "target": childData[i].id})
+// function createLinks(parentId, childData) {
+//   let links = [];
+//   for (var i = 0; i < childData.length; i++) {
+//     links.push({"source": parentId, "target": childData[i].id})
+//   }
+//   return links;
+// }
+
+function appendChildren(data, parent) {
+  if (data[0].URL) {
+    var className = "songCircle";
+  } else {
+    var className = "artistCircle";
   }
-  return links;
-}
 
-function appendChildren(graph, parent) {
-
-  for (var i = 0; i < graph.data.length; i++) {
+  for (var i = 0; i < data.length; i++) {
     d3.select(".svg")
       .append("circle")
-      .attr("class", "artistCircle")
-
-    d3.select(".svg")
-    .append("line")
-    .attr("class", "artistLink")
-  }
-
-  svg.selectAll(".artistCircle")
-    .data(graph.data)
+      .attr("class", `${className}`)
+    }
+  svg.selectAll(`.${className}`)
+    .data(data)
     .attr("x", function (d) { return parent.x; })
     .attr("y", function (d) { return parent.y; })
     .attr("r", function (d) { return d.radius; })
     .style("fill", function (d) { return parent.color; })
 
-  svg.selectAll(".artistLink")
-    .data(graph.links)
-    .attr("stroke-width", 2)
-    .attr("stroke", "black")
+  // svg.selectAll(".artistLink")
+  //   .data(graph.links)
+  //   .attr("stroke-width", 2)
+  //   .attr("stroke", "black")
 }
 
+function deleteArtistCircles() {
+  svg.selectAll(".artistCircle").remove();
+}
+
+function deleteSongCircles() {
+  svg.selectAll(".songCircle").remove();
+}
+
+// svg.selectAll("line").remove();
 // function artistSim(data, links) {
   // circle = d3.selectAll("circle")
   // circle = circle.data(data, function(d) { return d.id})
