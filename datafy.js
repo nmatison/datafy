@@ -6,7 +6,6 @@ simulation = d3.forceSimulation()
 .force("charge", d3.forceManyBody().strength(-14))
 .force("collide", d3.forceCollide(70).strength(1))
 .alphaTarget(0.01)
-// .alpha(1)
 
 let svg = d3.select(".container")
 .append("svg")
@@ -66,7 +65,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
             .on("tick", ticked)
       }
     });
-
+2500
     function enlarge(d) {
       d3.select(this)
       .attr('stroke', d.color.darker)
@@ -81,29 +80,40 @@ d3.csv("parent-nodes.csv").then(function(data) {
  })
 
  function songs(parent) {
+   // let data = svg.selectAll("circle").data()
    deleteSongCircles()
    let totalStreams = calcStreams(songData);
-   calcRadius(songData, totalStreams)
-     appendChildren(songData, parent)
-     simulation.nodes(songData.concat(artistData, parentData))
+   let artistSongData = filterSongs(parent);
+   calcRadius(artistSongData, totalStreams)
+   appendChildren(artistSongData, parent)
+   simulation.nodes(artistSongData.concat(artistData, parentData))
      .force("center", d3.forceCenter(width / 2, height / 2))
      .force("charge", d3.forceManyBody().strength(-14))
      .force("collide", d3.forceCollide(75).strength(1))
      .alphaTarget(0.01)
      .on("tick", ticked)
 
-     function ticked() {
-       let circles = svg.selectAll("circle")
-       let text = svg.selectAll("text")
+   function ticked() {
+     let circles = svg.selectAll("circle")
+     let text = svg.selectAll("text")
 
-       text
-       .attr('x', function (d) {return d.x; })
-       .attr('y', function (d) {return d.y; })
-       circles
-        .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
-        .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
-     }
+     text
+     .attr('x', function (d) {return d.x; })
+     .attr('y', function (d) {return d.y; })
+     circles
+      .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
+      .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
    }
+ }
+
+ function filterSongs(parent) {
+   let result = [];
+   for (let s = 0; s < songData.length; s++) {
+     if (songData[s].Artist === parent.Artist) result.push(songData[s])
+   }
+   return result;
+ }
+
    // let links = createLinks(parent.id, data)
    // , "links": links}
    // let links = svg.selectAll("line")
@@ -163,8 +173,40 @@ function calcStreams(data) {
 
 
 function calcRadius(data, totalStreams) {
-  for (var i = 0; i < data.length; i++) {
-    data[i].radius = (parseInt(data[i].Streams) / totalStreams) * 500
+  var radius;
+  (data)
+  if (data[0].URL) {
+    for (var i = 0; i < data.length; i++) {
+      radius = (parseInt(data[i].Streams) / totalStreams) * 650
+      (radius)
+      data[i].radius = radius
+      (radius)
+    }
+  } else {
+    for (var i = 0; i < data.length; i++) {
+      let percent = (parseInt(data[i].Streams) / totalStreams)
+      if (percent < 0.020) {
+        (percent)
+        radius = percent * 1200
+        data[i].radius = radius
+        continue
+      } else if (percent < 0.040) {
+        radius = percent * 800
+        data[i].radius = radius
+        (data[i].radius)
+        continue
+      } else if (percent < 0.060) {
+        radius = percent * 375
+        data[i].radius = radius
+        continue
+      } else {
+        radius = percent * 175
+        data[i].radius = radius
+        continue
+      }
+      data[i].radius = radius
+      (radius)
+    }
   }
 }
 
