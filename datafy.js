@@ -34,6 +34,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
     .data(data)
     .enter()
     .append("text")
+    .attr("class", "parentText")
     .attr("x", function(d) {return d.x_axis; })
     .attr("y", function(d) {return d.y_axis; })
     .text( function (d) { return d.text })
@@ -59,13 +60,15 @@ d3.csv("parent-nodes.csv").then(function(data) {
       d.clicked = !d.clicked;
       if (d.clicked) {
         artists(d)
+        deleteSongCircles()
       } else {
+        deleteSongCircles()
         deleteArtistCircles()
         simulation.nodes(data)
             .on("tick", ticked)
       }
     });
-    
+
     function enlarge(d) {
       d3.select(this)
       .attr('stroke', d.color.darker)
@@ -80,7 +83,6 @@ d3.csv("parent-nodes.csv").then(function(data) {
  })
 
  function songs(parent) {
-   // let data = svg.selectAll("circle").data()
    deleteSongCircles()
    let totalStreams = calcStreams(songData);
    let artistSongData = filterSongs(parent);
@@ -93,6 +95,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
      .alphaTarget(0.01)
      .on("tick", ticked)
 
+
    function ticked() {
      let circles = svg.selectAll("circle")
      let text = svg.selectAll("text")
@@ -101,8 +104,8 @@ d3.csv("parent-nodes.csv").then(function(data) {
      .attr('x', function (d) {return d.x; })
      .attr('y', function (d) {return d.y; })
      circles
-      .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
-      .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
+      .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 120); })
+      .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 120); })
    }
  }
 
@@ -113,15 +116,6 @@ d3.csv("parent-nodes.csv").then(function(data) {
    }
    return result;
  }
-
-   // let links = createLinks(parent.id, data)
-   // , "links": links}
-   // let links = svg.selectAll("line")
-   // links
-   //  .attr("x1", function(d) { return d.source.x; })
-   //  .attr("y1", function(d) { return d.source.y; })
-   //  .attr("x2", function(d) { return d.target.x; })
-   //  .attr("y2", function(d) { return d.target.y; })
 
 function artists(parent) {
   deleteArtistCircles()
@@ -142,6 +136,7 @@ function artists(parent) {
               .on("tick", ticked)
         }
       });
+
     simulation.nodes(artistData.concat(parentData))
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force("charge", d3.forceManyBody().strength(-14))
@@ -154,11 +149,11 @@ function artists(parent) {
       let text = svg.selectAll("text")
 
       text
-      .attr('x', function (d) {return d.x; })
-      .attr('y', function (d) {return d.y; })
+        .attr('x', function (d) {return d.x; })
+        .attr('y', function (d) {return d.y; })
       circles
-       .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x)); })
-       .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y)); })
+       .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 120); })
+       .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 120); })
     }
   });
 }
@@ -228,18 +223,13 @@ function getArtistStreams(data, artistData) {
   return artistData
 }
 
-// function createLinks(parentId, childData) {
-//   let links = [];
-//   for (var i = 0; i < childData.length; i++) {
-//     links.push({"source": parentId, "target": childData[i].id})
-//   }
-//   return links;
-// }
 
 function appendChildren(data, parent) {
   if (data[0].URL) {
+    var type = "song"
     var className = "songCircle";
   } else {
+    var type = "artist"
     var className = "artistCircle";
   }
 
@@ -247,18 +237,66 @@ function appendChildren(data, parent) {
     d3.select(".svg")
       .append("circle")
       .attr("class", `${className}`)
+    d3.select(".svg")
+      .append("text")
+      .attr("class", `${type}Text`)
     }
   svg.selectAll(`.${className}`)
     .data(data)
-    .attr("x", function (d) { return parent.x; })
+    .attr("x", function (d) {console.log(data); console.log(d); return parent.x; })
     .attr("y", function (d) { return parent.y; })
     .attr("r", function (d) { return d.radius; })
     .style("fill", function (d) { return parent.color; })
+    .on("mouseover", function(d){
+      svg.selectAll("circle")
+        .transition()
+        .duration(200)
+        .style("opacity", 0.5)
+      svg.selectAll(".parentText")
+        .transition()
+        .duration(200)
+        .style("opacity", 0.5)
+      svg.selectAll(".artistText")
+        .transition()
+        .duration(200)
+        .style("opacity", 1.0)
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .style("opacity", 1.0)
+        .attr("r", 120)
+    })
+    .on("mouseout", function(d) {
+      svg.selectAll("circle")
+        .transition()
+        .duration(200)
+        .style("opacity", 1.0)
+        .transition()
+        .duration(200)
+        .attr("r", function (d) { return d.radius; })
+      svg.selectAll("text")
+        .transition()
+        .duration(200)
+        .style("opacity", 1.0)
+    })
 
-  // svg.selectAll(".artistLink")
-  //   .data(graph.links)
-  //   .attr("stroke-width", 2)
-  //   .attr("stroke", "black")
+    svg.selectAll(`.${type}Text`)
+    .data(data)
+    .attr("x", function (d) { return parent.x; })
+    .attr("y", function (d) { return parent.y; })
+    .text( function (d) { return d.Artist })
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "20px")
+    .attr("fill", "white")
+    .attr("text-anchor", "middle")
+    .attr("opacity", 0.0)
+
+}
+
+function hoverEffect(d, data) {
+  svg.selectAll("circle")
+    .style("opacity", 0.5)
+  d3.select(this).style("opacity", 1.0)
 }
 
 function deleteArtistCircles() {
@@ -268,28 +306,3 @@ function deleteArtistCircles() {
 function deleteSongCircles() {
   svg.selectAll(".songCircle").remove();
 }
-
-// svg.selectAll("line").remove();
-// function artistSim(data, links) {
-  // circle = d3.selectAll("circle")
-  // circle = circle.data(data, function(d) { return d.id})
-  // circle.exit()
-  //       .remove()
-  // circle = circle.enter().append("circle")
-  // simulation.nodes(data)
-  // simulation.alpha(1).restart()
-  //
-// }
-
-// function artistTicked() {
-//   let artistCircles = svg.select(".artistCircle")
-//   let links = svg.select(".artistLink")
-//   artistCircles
-//     .attr('cx', function (d) {return d.x; })
-//     .attr('cy', function (d) {return d.y; })
-//   links
-//     .attr("x1", function(d) { return d.source.x_axis; })
-//     .attr("y1", function(d) { return d.source.y_axis; })
-//     .attr("x2", function(d) { return d.target.x; })
-//     .attr("y2", function(d) { return d.target.y; })
-// }
