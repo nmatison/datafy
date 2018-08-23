@@ -65,7 +65,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
             .on("tick", ticked)
       }
     });
-2500
+    
     function enlarge(d) {
       d3.select(this)
       .attr('stroke', d.color.darker)
@@ -174,29 +174,24 @@ function calcStreams(data) {
 
 function calcRadius(data, totalStreams) {
   var radius;
-  (data)
   if (data[0].URL) {
     for (var i = 0; i < data.length; i++) {
       radius = (parseInt(data[i].Streams) / totalStreams) * 650
-      (radius)
       data[i].radius = radius
-      (radius)
     }
   } else {
     for (var i = 0; i < data.length; i++) {
       let percent = (parseInt(data[i].Streams) / totalStreams)
       if (percent < 0.020) {
-        (percent)
         radius = percent * 1200
         data[i].radius = radius
         continue
       } else if (percent < 0.040) {
         radius = percent * 800
         data[i].radius = radius
-        (data[i].radius)
         continue
       } else if (percent < 0.060) {
-        radius = percent * 375
+        radius = percent * 350
         data[i].radius = radius
         continue
       } else {
@@ -204,8 +199,6 @@ function calcRadius(data, totalStreams) {
         data[i].radius = radius
         continue
       }
-      data[i].radius = radius
-      (radius)
     }
   }
 }
