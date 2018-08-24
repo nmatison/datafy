@@ -3,8 +3,8 @@ let height = 650
 
 simulation = d3.forceSimulation()
 .force("center", d3.forceCenter(width / 2, height / 2))
-.force("charge", d3.forceManyBody().strength(-14))
-.force("collide", d3.forceCollide(70).strength(1))
+.force("charge", d3.forceManyBody().strength(-20))
+.force("collide", d3.forceCollide(70).strength(0.50))
 .alphaTarget(0.01)
 
 let svg = d3.select(".container")
@@ -40,9 +40,11 @@ d3.csv("parent-nodes.csv").then(function(data) {
     .text( function (d) { return d.text })
     .attr("font-family", "sans-serif")
     .attr("font-size", "20px")
-    .attr("fill", "black")
+    .attr("fill", "rgb(235, 235, 235)")
     .attr("text-anchor", "middle")
-
+    .attr("text-anchor", "middle")
+    .attr("letter-spacing", "0.5")
+    .attr("font-weight", "bold")
   simulation.nodes(parentData)
       .on("tick", ticked)
 
@@ -88,8 +90,8 @@ d3.csv("parent-nodes.csv").then(function(data) {
    appendChildren(artistSongData, parent, totalStreams)
    simulation.nodes(artistSongData.concat(artistData, parentData))
      .force("center", d3.forceCenter(width / 2, height / 2))
-     .force("charge", d3.forceManyBody().strength(-14))
-     .force("collide", d3.forceCollide(75).strength(1))
+     .force("charge", d3.forceManyBody().strength(-20))
+     .force("collide", d3.forceCollide(75).strength(0.50))
      .alphaTarget(0.01)
      .on("tick", ticked)
 
@@ -137,8 +139,8 @@ function artists(parent) {
 
     simulation.nodes(artistData.concat(parentData))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("charge", d3.forceManyBody().strength(-14))
-      .force("collide", d3.forceCollide(75).strength(1))
+      .force("charge", d3.forceManyBody().strength(-20))
+      .force("collide", d3.forceCollide(75).strength(0.5))
       .alphaTarget(0.01)
       .on("tick", ticked)
 
@@ -184,11 +186,11 @@ function calcRadius(data, totalStreams) {
         data[i].radius = radius
         continue
       } else if (percent < 0.060) {
-        radius = Math.min(percent * 900, 75)
+        radius = Math.min(percent * 900, 82)
         data[i].radius = radius
         continue
       } else {
-        radius = Math.min(percent * 900, 100)
+        radius = Math.min(percent * 900, 107)
         data[i].radius = radius
         continue
       }
@@ -278,17 +280,17 @@ function appendChildren(data, parent, totalStreams) {
         .text(firstText)
         .attr("font-family", "sans-serif")
         .attr("font-size", "20px")
-        .attr("fill", "black")
+        .attr("fill", "white")
       d3.select(".svg")
         .append("text")
         .attr("class", `${type}Text`)
         .data(node.data())
         .attr("text-anchor", "middle")
         .attr("alignment-baseline", "hanging")
-        .text(`Total Streams: ${streams}`)
+        .text(`${streams.toLocaleString()}`)
         .attr("font-family", "sans-serif")
         .attr("font-size", "20px")
-        .attr("fill", "black")
+        .attr("fill", "white")
 
         if (type === "song") {
           d3.select(this)
@@ -315,22 +317,6 @@ function appendChildren(data, parent, totalStreams) {
     })
 }
 
-function appendText(that, type, parent) {
-  let data = songData[that.id]
-  let text = d3.select(".svg")
-    .append("text")
-    .attr("class", `${type}Text`)
-
-    text
-    .data([data])
-    .attr("x", function (d) { return width / 2; })
-    .attr("y", function (d) { return height / 2; })
-    .text( data.Artist )
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "20px")
-    .attr("fill", "black")
-    .attr("text-anchor", "middle")
-}
 
 function deleteArtistCircles() {
   svg.selectAll(".artistCircle").remove();
