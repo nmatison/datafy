@@ -91,7 +91,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
    let totalStreams = calcStreams(songData);
    let artistSongData = filterSongs(parent);
    calcRadius(artistSongData, totalStreams)
-   appendChildren(artistSongData, parent)
+   appendChildren(artistSongData, parent, totalStreams)
    simulation.nodes(artistSongData.concat(artistData, parentData))
      .force("center", d3.forceCenter(width / 2, height / 2))
      .force("charge", d3.forceManyBody().strength(-14))
@@ -108,8 +108,8 @@ d3.csv("parent-nodes.csv").then(function(data) {
      .attr('x', function (d) {return d.x; })
      .attr('y', function (d) {return d.y; })
      circles
-      .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 120); })
-      .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 120); })
+      .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 125); })
+      .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 125); })
    }
  }
 
@@ -156,8 +156,8 @@ function artists(parent) {
         .attr('x', function (d) { return d.x; })
         .attr('y', function (d) { return d.y; })
       circles
-       .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 120); })
-       .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 120); })
+       .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 125); })
+       .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 125); })
     }
   });
 }
@@ -270,15 +270,13 @@ function appendChildren(data, parent, totalStreams) {
         .transition()
         .duration(200)
         .style("opacity", 1.0)
-        .attr("r", 120)
+        .attr("r", 125)
       d3.select(".svg")
         .append("text")
         .attr("class", `${type}Text`)
         .data(node.data())
         .attr("text-anchor", "middle")
         .attr("alignment-baseline", "ideographic")
-        .attr("x", function(d) {return d.x;})
-        .attr("y", function(d) {return d.y; })
         .text(firstText)
         .attr("font-family", "sans-serif")
         .attr("font-size", "20px")
@@ -289,8 +287,6 @@ function appendChildren(data, parent, totalStreams) {
         .data(node.data())
         .attr("text-anchor", "middle")
         .attr("alignment-baseline", "hanging")
-        .attr("x", function(d) {return d.x;})
-        .attr("y", function(d) {return d.y;})
         .text(`Total Streams: ${totalStreams}`)
         .attr("font-family", "sans-serif")
         .attr("font-size", "20px")
@@ -310,7 +306,7 @@ function appendChildren(data, parent, totalStreams) {
         .transition()
         .duration(200)
         .style("opacity", 1.0)
-      svg.selectAll(".artistText").remove()
+      svg.selectAll(`.${type}Text`).remove()
     })
 }
 
