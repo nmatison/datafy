@@ -57,16 +57,8 @@ d3.csv("parent-nodes.csv").then(function(data) {
 
   svg.selectAll("circle")
     .on("click", function(d) {
-      d.clicked = !d.clicked;
-      if (d.clicked) {
         artists(d)
         deleteSongCircles()
-      } else {
-        deleteSongCircles()
-        deleteArtistCircles()
-        simulation.nodes(data)
-            .on("tick", ticked)
-      }
     });
 
     function enlarge(d) {
@@ -75,6 +67,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
       .duration(200)
       .attr('stroke', d.color.darker)
       .attr('r', function(d) {return (d.radius*1.1)})
+      .style("cursor", "pointer")
     }
 
     function normalize(d) {
@@ -83,6 +76,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
         .duration(200)
         .attr('stroke', d.color)
         .attr('r', function(d) {return d.radius})
+        .style("cursor", "default")
     }
  })
 
@@ -230,13 +224,15 @@ function getArtistStreams(data, artistData) {
 
 function appendChildren(data, parent, totalStreams) {
   if (data[0].URL) {
-    var type = "song"
+    var type = "song";
     var className = "songCircle";
-    var color = "pink"
+    var color = "#ffa600";
+
   } else {
-    var type = "artist"
+    var type = "artist";
     var className = "artistCircle";
-    var color = parent.color
+    var color = parent.color;
+
   }
 
   for (var i = 0; i < data.length; i++) {
@@ -257,6 +253,7 @@ function appendChildren(data, parent, totalStreams) {
       } else {
         var firstText = songData[this.id -1].Artist
       }
+      var streams = d.Streams
       node = d3.select(this)
       svg.selectAll("circle")
         .transition()
@@ -271,6 +268,7 @@ function appendChildren(data, parent, totalStreams) {
         .duration(200)
         .style("opacity", 1.0)
         .attr("r", 125)
+        .style("cursor", "pointer")
       d3.select(".svg")
         .append("text")
         .attr("class", `${type}Text`)
@@ -287,13 +285,19 @@ function appendChildren(data, parent, totalStreams) {
         .data(node.data())
         .attr("text-anchor", "middle")
         .attr("alignment-baseline", "hanging")
-        .text(`Total Streams: ${totalStreams}`)
+        .text(`Total Streams: ${streams}`)
         .attr("font-family", "sans-serif")
         .attr("font-size", "20px")
         .attr("fill", "black")
 
+        if (type === "song") {
+          d3.select(this)
+            .on("click", function(d) {
+              window.open(songData[this.id -1].URL, '_blank')
+            })
+          }
+        })
 
-    })
     .on("mouseout", function(d) {
       svg.selectAll("circle")
         .transition()
@@ -302,6 +306,7 @@ function appendChildren(data, parent, totalStreams) {
         .transition()
         .duration(200)
         .attr("r", function (d) { return d.radius; })
+        .style("cursor", "default")
       svg.selectAll("text")
         .transition()
         .duration(200)
