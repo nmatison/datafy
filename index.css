@@ -26,13 +26,13 @@ svg {
 
 .information {
   display: flex;
-  width: 875px;;
+  width: 925px;;
   margin-top: 50px;
   justify-content: space-between;
 }
 
 .description {
-  width: 60%;
+  width: 560px;
 }
 
 .title {
@@ -47,7 +47,8 @@ svg {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 875px;
+  width: 900px;
+  margin-right: 15px;
 }
 
 .links-pic a {
@@ -57,7 +58,6 @@ svg {
 
 
 .github {
-  margin-left: 10%;
   width: 100%;
   height: 100%;
 }
