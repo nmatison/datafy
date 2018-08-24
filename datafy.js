@@ -30,7 +30,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
    .on('mouseover', enlarge)
    .on('mouseout', normalize)
 
-  let textCircles = svg.selectAll("text")
+  let textCircles = svg.selectAll(".parentText")
     .data(data)
     .enter()
     .append("text")
@@ -71,12 +71,16 @@ d3.csv("parent-nodes.csv").then(function(data) {
 
     function enlarge(d) {
       d3.select(this)
+      .transition()
+      .duration(200)
       .attr('stroke', d.color.darker)
       .attr('r', function(d) {return (d.radius*1.1)})
     }
 
     function normalize(d) {
         d3.select(this)
+        .transition()
+        .duration(200)
         .attr('stroke', d.color)
         .attr('r', function(d) {return d.radius})
     }
@@ -124,7 +128,7 @@ function artists(parent) {
     let totalStreams = calcStreams(data);
     artistData = getArtists(data);
     calcRadius(artistData, totalStreams);
-    appendChildren(artistData, parent)
+    appendChildren(artistData, parent, totalStreams)
     svg.selectAll(".artistCircle")
       .on("click", function(d) {
         d.clicked = !d.clicked;
@@ -138,19 +142,19 @@ function artists(parent) {
       });
 
     simulation.nodes(artistData.concat(parentData))
-    .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("charge", d3.forceManyBody().strength(-14))
-    .force("collide", d3.forceCollide(75).strength(1))
-    .alphaTarget(0.01)
-    .on("tick", ticked)
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("charge", d3.forceManyBody().strength(-14))
+      .force("collide", d3.forceCollide(75).strength(1))
+      .alphaTarget(0.01)
+      .on("tick", ticked)
 
     function ticked() {
       let circles = svg.selectAll("circle")
       let text = svg.selectAll("text")
 
       text
-        .attr('x', function (d) {return d.x; })
-        .attr('y', function (d) {return d.y; })
+        .attr('x', function (d) { return d.x; })
+        .attr('y', function (d) { return d.y; })
       circles
        .attr("cx", function(d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 120); })
        .attr("cy", function(d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 120); })
@@ -204,7 +208,7 @@ function getArtists(data) {
   for (var i = 0; i < data.length; i++) {
     if (artistData.every((obj) => data[i].Artist !== obj.Artist)) {
       artistId = `${data[i].Artist.slice(0, 2)}${data[i].Streams.slice(0, 4)}`
-      artistData.push({"id": artistId, "Artist": data[i].Artist, "Streams": 0 })
+      artistData.push({"id": data[i].Position, "Artist": data[i].Artist, "Streams": 0 })
     }
   } artistsAndStreams = getArtistStreams(data, artistData)
   return artistsAndStreams
@@ -224,7 +228,7 @@ function getArtistStreams(data, artistData) {
 }
 
 
-function appendChildren(data, parent) {
+function appendChildren(data, parent, totalStreams) {
   if (data[0].URL) {
     var type = "song"
     var className = "songCircle";
@@ -237,17 +241,16 @@ function appendChildren(data, parent) {
     d3.select(".svg")
       .append("circle")
       .attr("class", `${className}`)
-    d3.select(".svg")
-      .append("text")
-      .attr("class", `${type}Text`)
     }
   svg.selectAll(`.${className}`)
     .data(data)
-    .attr("x", function (d) {console.log(data); console.log(d); return parent.x; })
-    .attr("y", function (d) { return parent.y; })
+    .attr("x", function (d) { return width/2; })
+    .attr("y", function (d) { return height/2; })
     .attr("r", function (d) { return d.radius; })
+    .attr("id", function(d) { return d.id })
     .style("fill", function (d) { return parent.color; })
     .on("mouseover", function(d){
+      node = d3.select(this)
       svg.selectAll("circle")
         .transition()
         .duration(200)
@@ -256,15 +259,35 @@ function appendChildren(data, parent) {
         .transition()
         .duration(200)
         .style("opacity", 0.5)
-      svg.selectAll(".artistText")
-        .transition()
-        .duration(200)
-        .style("opacity", 1.0)
       d3.select(this)
         .transition()
         .duration(200)
         .style("opacity", 1.0)
         .attr("r", 120)
+      d3.select(".svg")
+        .append("text")
+        .attr("class", `${type}Text`)
+        .data(node.data())
+        .attr("text-anchor", "middle")
+        .attr("x", function(d) {return d.x;})
+        .attr("y", function(d) {return d.y; })
+        .text(songData[this.id -1].Artist)
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "20px")
+        .attr("fill", "black")
+      d3.select(".svg")
+        .append("text")
+        .attr("class", `${type}Text`)
+        .data(node.data())
+        .attr("text-anchor", "middle")
+        .attr("x", function(d) {return d.x;})
+        .attr("y", function(d) {return d.y;})
+        .text(`Total Streams: ${totalStreams}`)
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "20px")
+        .attr("fill", "black")
+
+
     })
     .on("mouseout", function(d) {
       svg.selectAll("circle")
@@ -278,25 +301,25 @@ function appendChildren(data, parent) {
         .transition()
         .duration(200)
         .style("opacity", 1.0)
+      svg.selectAll(".artistText").remove()
     })
-
-    svg.selectAll(`.${type}Text`)
-    .data(data)
-    .attr("x", function (d) { return parent.x; })
-    .attr("y", function (d) { return parent.y; })
-    .text( function (d) { return d.Artist })
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "20px")
-    .attr("fill", "white")
-    .attr("text-anchor", "middle")
-    .attr("opacity", 0.0)
-
 }
 
-function hoverEffect(d, data) {
-  svg.selectAll("circle")
-    .style("opacity", 0.5)
-  d3.select(this).style("opacity", 1.0)
+function appendText(that, type, parent) {
+  let data = songData[that.id]
+  let text = d3.select(".svg")
+    .append("text")
+    .attr("class", `${type}Text`)
+
+    text
+    .data([data])
+    .attr("x", function (d) { return width / 2; })
+    .attr("y", function (d) { return height / 2; })
+    .text( data.Artist )
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "20px")
+    .attr("fill", "black")
+    .attr("text-anchor", "middle")
 }
 
 function deleteArtistCircles() {
