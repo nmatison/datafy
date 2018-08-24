@@ -6,33 +6,7 @@ Datafy is a data visualization project that takes weekly Spotify data from the m
 
 Users will open the page to circles representing each month's worth of data. Clicking on a circle will result in a chain of info becoming available through more circle objects:
 + Clicking on one month will shoot out smaller data objects that represents the top artists whose songs made it in the top 25 songs on the top 200 chart for that week. The top 200 is determined by the number of streams a song received that week. Each circle's size being relative to the artist's position on the charts for that week.
-+ Clicking on the artist's circle will shoot out even more smaller data objects that display the song name along with the amount of times it had been streamed that week. There will also be a link to to listen to the song available on the circle. The circle size will be determined based on its number of streams.
-
-## Functionality & MVP
-
-In datafy, users will be able to:
-- [ ] Interact with each data object by clicking with their mouse.
-- [ ] Be able to clearly read the data that is available on each circle
-- [ ] Be able to click on the link to listen to the song on spotify once they have reaced the end of the data tree (user will have to login to their own spotify though).
-
-The data objects will:
-- [ ] Vary in size as follows: Monthly circles will be the same size, artist circles will vary in size based on their position on the chart for that week, song circles will vary in size based on the amount of streams the song received for that week.
-- [ ] Vary in color and be connected to their child circles via a line segment.
-- [ ] Each will circle will contain its relevant data that is clearly readable.
-The main page will also include:
-- [ ] A title and short explanation of the project.
-- [ ] Links to my github and to the source of where I got my data (spotifycharts.com)
-
-## Wireframes
-
-This app will consist of a single screen with a svg displaying the objects in the center (wide screened), and a title and short explanation above it. The links to my github and the source data will be underneath the svg.
-
-The svg will start out with 6 main circles and each click on a specific circle will allow that circle to shoot out smaller circles of relative size. All circles will have a single line connecting them back to their parent circle.
-
-![example wire-frame](https://github.com/nmatison/datafy/blob/master/images/final-wire-frame.png)
-
-###Need to keep in mind/look into:
-Room will be an issue. The svg will either have to be "enlarged" or other parent circles will have to close if a parent circle is selected. Could possibly shrink all circles when a parent expands by a fixed percentage. This would give the illusion that the svg is enlarging.
++ Clicking on the artist's circle will shoot out even more smaller data objects that display the song name along with the amount of times it had been streamed that week. The song circles will also be linked to the specific song on Spotify so users will be able to instantly listen to the song.
 
 
 ## Architecture and Technologies
@@ -44,37 +18,6 @@ Datafy will use the following technologies:
 + `CSS` to help with the page layout
 
 The project will also include the data files from [Spotify Charts](https://spotifycharts.com/regional/global/weekly/2018-08-10--2018-08-17) in csv form.
-
-
-## Implementation Timeline
-
-### Over the weekend:
-- [x] Grab all necessary data from Spotify Charts.
-- [x] Repo and `github` setup. Have a temp `node.js` server setup for easier testing.
-- [x] Play around with the csv data using `d3` and become accustomed to how it is used.
-- [x] Begin researching more into `d3` and engaging in tutorials that will assist in leading me in the right direction.
-
-### Day1:
-- [x] Finish walking through `d3` tutorials/readings.
-- [x] Have the overall `html` structure (Title, Description, svg, and Links) set up.
-- [x] Start the implmentation of the `svg` with what was learned above. Get at least one parent circle rendering.
-- [x] Get necessary data rendering on the parent circle.
-
-### Day2:
-- [x] Finish all of the parent circles
-- [ ] Get the `click handler` working properly to generate child circles.
-- [ ] Have children circle sizes(artist circles) display size based on their position on the charts.
-
-### Day3:
-- [ ] Have the correct data displaying on each circle.
-- [ ] Already figured out the click handler and the sizing, so rinse and repeat for the songs circles (children of the artist circles)
-- [ ] Have song circles display size based on the percentage of streams they have of the total streams for all songs.
-
- ### Day4:
- - [ ] Have the correct data displaying on 100% of circles
- - [ ] Have the screen sizing issue resolved as noted under the WireFrame Section above.
- - [ ] Have everything properly styled on the `html` sheet.
-
 
 ## Bonus Features
 
