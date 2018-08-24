@@ -1,5 +1,5 @@
-let width = 1400
-let height = 750
+let width = 1200
+let height = 650
 
 simulation = d3.forceSimulation()
 .force("center", d3.forceCenter(width / 2, height / 2))
@@ -176,19 +176,19 @@ function calcRadius(data, totalStreams) {
     for (var i = 0; i < data.length; i++) {
       let percent = (parseInt(data[i].Streams) / totalStreams)
       if (percent < 0.020) {
-        radius = percent * 1200
+        radius = percent * 900
         data[i].radius = radius
         continue
       } else if (percent < 0.040) {
-        radius = percent * 800
+        radius = percent * 900
         data[i].radius = radius
         continue
       } else if (percent < 0.060) {
-        radius = percent * 350
+        radius = Math.min(percent * 900, 75)
         data[i].radius = radius
         continue
       } else {
-        radius = percent * 175
+        radius = Math.min(percent * 900, 100)
         data[i].radius = radius
         continue
       }
@@ -242,8 +242,8 @@ function appendChildren(data, parent, totalStreams) {
     }
   svg.selectAll(`.${className}`)
     .data(data)
-    .attr("x", function (d) { return width/2; })
-    .attr("y", function (d) { return height/2; })
+    .attr("x", function (d) { return 0; })
+    .attr("y", function (d) { return 0; })
     .attr("r", function (d) { return d.radius; })
     .attr("id", function(d) { return d.id })
     .style("fill", function (d) { return color; })
