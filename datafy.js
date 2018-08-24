@@ -208,7 +208,7 @@ function getArtists(data) {
   for (var i = 0; i < data.length; i++) {
     if (artistData.every((obj) => data[i].Artist !== obj.Artist)) {
       artistId = `${data[i].Artist.slice(0, 2)}${data[i].Streams.slice(0, 4)}`
-      artistData.push({"id": data[i].Position, "Artist": data[i].Artist, "Streams": 0 })
+      artistData.push({"id": data[i].id, "Artist": data[i].Artist, "Streams": 0 })
     }
   } artistsAndStreams = getArtistStreams(data, artistData)
   return artistsAndStreams
@@ -232,9 +232,11 @@ function appendChildren(data, parent, totalStreams) {
   if (data[0].URL) {
     var type = "song"
     var className = "songCircle";
+    var color = "pink"
   } else {
     var type = "artist"
     var className = "artistCircle";
+    var color = parent.color
   }
 
   for (var i = 0; i < data.length; i++) {
@@ -248,8 +250,13 @@ function appendChildren(data, parent, totalStreams) {
     .attr("y", function (d) { return height/2; })
     .attr("r", function (d) { return d.radius; })
     .attr("id", function(d) { return d.id })
-    .style("fill", function (d) { return parent.color; })
+    .style("fill", function (d) { return color; })
     .on("mouseover", function(d){
+      if (data[0].URL) {
+        var firstText = songData[this.id -1].Track
+      } else {
+        var firstText = songData[this.id -1].Artist
+      }
       node = d3.select(this)
       svg.selectAll("circle")
         .transition()
@@ -272,7 +279,7 @@ function appendChildren(data, parent, totalStreams) {
         .attr("alignment-baseline", "ideographic")
         .attr("x", function(d) {return d.x;})
         .attr("y", function(d) {return d.y; })
-        .text(songData[this.id -1].Artist)
+        .text(firstText)
         .attr("font-family", "sans-serif")
         .attr("font-size", "20px")
         .attr("fill", "black")
