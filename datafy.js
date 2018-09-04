@@ -200,7 +200,7 @@ function calcRadius(data, totalStreams) {
 
 function getArtists(data) {
   let artistData = []
-  let artistDataAndStreams;
+  // let artistDataAndStreams;
   for (var i = 0; i < data.length; i++) {
     if (artistData.every((obj) => data[i].Artist !== obj.Artist)) {
       artistId = `${data[i].Artist.slice(0, 2)}${data[i].Streams.slice(0, 4)}`
@@ -256,6 +256,7 @@ function appendChildren(data, parent, totalStreams) {
         var firstText = songData[this.id -1].Artist
       }
       var streams = d.Streams
+      if (typeof streams === "string") var streams = parseInt(d.Streams)
       node = d3.select(this)
       svg.selectAll("circle")
         .transition()
@@ -288,10 +289,10 @@ function appendChildren(data, parent, totalStreams) {
         .data(node.data())
         .attr("text-anchor", "middle")
         .attr("alignment-baseline", "hanging")
-        .text(`${streams.toLocaleString()}`)
+        .text(`${streams.toLocaleString()} Streams`)
         .attr("font-family", "Montserrat", "sans-serif")
         .attr("font-size", "20px")
-        .attr("fill", "white")
+        .attr("fill", "white");
       
 
         if (type === "song") {
