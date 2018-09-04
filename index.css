@@ -16,6 +16,19 @@
 
 }
 
+.songText {
+  pointer-events: none!important;
+}
+
+.artistText {
+  pointer-events: none!important
+}
+
+.parentText {
+  pointer-events: none!important
+}
+
+
 svg {
   background-color: white;
   margin-top: 50px;

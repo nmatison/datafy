@@ -2,18 +2,18 @@ let width = 1200
 let height = 650
 
 simulation = d3.forceSimulation()
-.force("center", d3.forceCenter(width / 2, height / 2))
-.force("charge", d3.forceManyBody().strength(-20))
-.force("collide", d3.forceCollide(70).strength(0.50))
-.alphaTarget(0.01)
+  .force("center", d3.forceCenter(width / 2, height / 2))
+  .force("charge", d3.forceManyBody().strength(-20))
+  .force("collide", d3.forceCollide(70).strength(0.50))
+  .alphaTarget(0.01)
 
 let svg = d3.select(".container")
-.append("svg")
-.attr("width", width)
-.attr("height", height)
-.append("g")
-.attr("transform", "translate(0,0)")
-.attr("class", "svg")
+  .append("svg")
+  .attr("width", width)
+  .attr("height", height)
+  .append("g")
+  .attr("transform", "translate(0,0)")
+  .attr("class", "svg")
 
 d3.csv("parent-nodes.csv").then(function(data) {
   parentData = data
@@ -281,6 +281,7 @@ function appendChildren(data, parent, totalStreams) {
         .attr("font-family", "Montserrat", "sans-serif")
         .attr("font-size", "20px")
         .attr("fill", "white")
+        .attr("")
       d3.select(".svg")
         .append("text")
         .attr("class", `${type}Text`)
@@ -291,6 +292,7 @@ function appendChildren(data, parent, totalStreams) {
         .attr("font-family", "Montserrat", "sans-serif")
         .attr("font-size", "20px")
         .attr("fill", "white")
+      
 
         if (type === "song") {
           d3.select(this)
@@ -316,7 +318,6 @@ function appendChildren(data, parent, totalStreams) {
       svg.selectAll(`.${type}Text`).remove()
     })
 }
-
 
 function deleteArtistCircles() {
   svg.selectAll(".artistCircle").remove();
