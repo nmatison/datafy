@@ -91,7 +91,7 @@ d3.csv("parent-nodes.csv").then(function(data) {
    simulation.nodes(artistSongData.concat(artistData, parentData))
      .force("center", d3.forceCenter(width / 2, height / 2))
      .force("charge", d3.forceManyBody().strength(-20))
-     .force("collide", d3.forceCollide(75).strength(0.50))
+     .force("collide", d3.forceCollide(81).strength(0.50))
      .alphaTarget(0.01)
      .on("tick", ticked)
 
@@ -140,7 +140,7 @@ function artists(parent) {
     simulation.nodes(artistData.concat(parentData))
       .force("center", d3.forceCenter(width / 2, height / 2))
       .force("charge", d3.forceManyBody().strength(-20))
-      .force("collide", d3.forceCollide(75).strength(0.5))
+      .force("collide", d3.forceCollide(81).strength(0.5))
       .alphaTarget(0.01)
       .on("tick", ticked)
 
