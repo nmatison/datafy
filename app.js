@@ -26,11 +26,29 @@ app.get('/token', (request, response) => {
   })
   .then((body) => {
         let results = JSON.parse(body)
-        let token = results.access_token
-        console.log(token)   // logs to server
+        token = results.access_token
         response.send(token) // sends to frontend
       });
   });
+
+  app.get('/topPlaylist', (request, response) => {
+    console.log(token)
+    fetch(
+      `https://api.spotify.com/v1/playlists/4hOKQuZbraPDIfaGbM3lKI/tracks`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    ).then(res => {
+      return res.text();
+    }).then((body) => {
+      let results = JSON.parse(body)
+      console.log(results)
+      response.send(results)
+    }
+  )
+});
   
   app.use(express.static('public'))
   

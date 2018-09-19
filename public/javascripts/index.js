@@ -4,12 +4,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     axios.get(`/token`)
     .then((response) => {
-        var token = response.data; 
-        console.log(token)
+			var token = response.data; 
+			return token
     })
+    .then((token) => {
+			console.log(token)
+      axios({
+				method: 'get',
+				url: '/topPlaylist', 
+				data: {
+				token
+        }
+			})
+			.then((response) => {
+				console.log(response)
+			})
+		})
     .catch(function (error) {
-        console.log(error);
+      console.log(error);
     });
-
-    
 })
