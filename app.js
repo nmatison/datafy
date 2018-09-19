@@ -11,11 +11,18 @@ app.get('/', (request, res) => {
 })
 
 // create route to get single book by its isbn
-app.get('/books/:isbn', (request, response) => {
+app.get('/token', (request, response) => {
   // make api call using fetch
-  fetch(`http://openlibrary.org/api/books?bibkeys=ISBN:${request.params.isbn}&format=json&jscmd=data`)
+  fetch(`https://accounts.spotify.com/api/token`, {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application / x-www-form-urlencoded",
+      "Authorization": "Basic OWJiZmU1NDY2YmNmNDBmMWFjZTA5ZDE1NjQyODIyNGM6ZjhlYzBiNTZjMjQwNDc5NDk4ZjBjMzQ0NjA1MTc3MGE="
+    }
+  })
   .then((response) => {
-      return response.text();
+      return response.access_token;
   }).then((body) => {
       let results = JSON.parse(body)
       console.log(results)   // logs to server
@@ -23,17 +30,6 @@ app.get('/books/:isbn', (request, response) => {
     });
 });
 
-// create a search route
-app.get('/search', (request, response) => {
-  fetch(`http://openlibrary.org/search.json?q=${request.query.string}`)
-  .then((response) => {
-      return response.text();
-  }).then((body) => {
-      let results = JSON.parse(body)
-      console.log(results)
-      response.send(results)
-    });
-});
 
 app.listen(PORT, () => {
   console.log(__dirname);
