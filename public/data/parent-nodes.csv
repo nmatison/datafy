@@ -1,0 +1,7 @@
+id,x_axis,y_axis,radius,color,text,data
+1,950,750,86,#00628f,September 2018,../data/08-30--09-06.csv
+2,70,70,86,#5368ac,April 2018,../data/03-30--04-06.csv
+3,350,250,86,#9965b4,May 2018,../data/04-27--05-04.csv
+4,550,600,86,#d85da3,June 2018,../data/06-01--06-08.csv
+5,880,150,86,#ff607e,July 2018,../data/06-29--07-06.csv
+6,600,450,86,#ff7c4d,August 2018,../data/latest.csv

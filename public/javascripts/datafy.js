@@ -15,7 +15,7 @@ let svg = d3.select(".container")
   .attr("transform", "translate(0,0)")
   .attr("class", "svg")
 
-d3.csv("parent-nodes.csv").then(function(data) {
+d3.csv("../data/parent-nodes.csv").then(function(data) {
   parentData = data
  let parentCircles = svg.selectAll("circle")
    .data(parentData)
