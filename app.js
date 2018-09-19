@@ -26,25 +26,24 @@ app.get('/token', (request, response) => {
   })
   .then((body) => {
         let results = JSON.parse(body)
-        token = results.access_token
+        var token = results.access_token
         response.send(token) // sends to frontend
       });
   });
 
   app.get('/topPlaylist', (request, response) => {
-    console.log(token)
+    console.log(request.headers.token)
     fetch(
       `https://api.spotify.com/v1/playlists/4hOKQuZbraPDIfaGbM3lKI/tracks`,
       {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${request.headers.token}`
         }
       }
     ).then(res => {
       return res.text();
     }).then((body) => {
       let results = JSON.parse(body)
-      console.log(results)
       response.send(results)
     }
   )

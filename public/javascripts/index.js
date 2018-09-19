@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
       axios({
 				method: 'get',
 				url: '/topPlaylist', 
-				data: {
+				headers: {
 				token
         }
 			})
