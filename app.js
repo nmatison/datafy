@@ -43,14 +43,29 @@ app.get('/token', (request, response) => {
       return res.text();
     }).then((body) => {
       let results = JSON.parse(body);
-      parsedData = parseData(results);
-      console.log(parsedData);
+      parsedData = parsePlaylistData(results);
       response.send(parsedData);
     }
   )
 });
 
-const parseData = (results) => {
+app.get('/albumImage', (request, response) => {
+  fetch(`https://api.spotify.com/v1/tracks/`, {
+    headers: {
+      Authorization: `Bearer ${request.headers.token}`
+    }
+  })
+  .then(res => {
+    return res.text();
+  })
+  .then((body) => {
+    let results = JSON.parse(body);
+    let albumImage = getAlbumImage(results);
+    response.send(albumImage);
+  })
+})
+
+const parsePlaylistData = (results) => {
   let newData = [];
   results.items.forEach((item) => {
     let track = item.track;
@@ -75,6 +90,10 @@ const parseData = (results) => {
     newData.push(trackData)
   });
   return newData
+}
+
+const getAlbumImage = (results) => {
+  console.log(results)
 }
   
   app.use(express.static('public'))

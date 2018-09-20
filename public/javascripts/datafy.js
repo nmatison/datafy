@@ -1,7 +1,20 @@
+import { fetchAlbumImage }  from "./util";
+
+let token;
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  fetchAlbumImage("60SdxE8apGAxMiRrpbmLY0");
+});
+
+
+
+
+
 let width = 1200
 let height = 650
 
-simulation = d3.forceSimulation()
+let simulation = d3.forceSimulation()
   .force("center", d3.forceCenter(width / 2, height / 2))
   .force("charge", d3.forceManyBody().strength(-20))
   .force("collide", d3.forceCollide(70).strength(0.50))
@@ -16,7 +29,7 @@ let svg = d3.select(".container")
   .attr("class", "svg")
 
 d3.csv("../data/parent-nodes.csv").then(function(data) {
-  parentData = data
+  let parentData = data
  let parentCircles = svg.selectAll("circle")
    .data(parentData)
    .enter()
@@ -86,6 +99,7 @@ d3.csv("../data/parent-nodes.csv").then(function(data) {
    deleteSongCircles()
    let totalStreams = calcStreams(songData);
    let artistSongData = filterSongs(parent);
+   getAlbumImg(artistSongData)
    calcRadius(artistSongData, totalStreams)
    appendChildren(artistSongData, parent, totalStreams)
    simulation.nodes(artistSongData.concat(artistData, parentData))
@@ -124,6 +138,7 @@ function artists(parent) {
     let totalStreams = calcStreams(data);
     artistData = getArtists(data);
     calcRadius(artistData, totalStreams);
+    artistData = getArtistImg(artistData);
     appendChildren(artistData, parent, totalStreams)
     svg.selectAll(".artistCircle")
       .on("click", function(d) {
@@ -222,6 +237,17 @@ function getArtistStreams(data, artistData) {
   }
   return artistData
 }
+
+function getArtistImg(artistData) {
+  return artistData;
+}
+
+function getAlbumImg(songData) {
+  // https://open.spotify.com/track/60SdxE8apGAxMiRrpbmLY0
+  let songUrl = songData.URL.slice(31)
+}
+
+
 
 
 function appendChildren(data, parent, totalStreams) {
