@@ -25,16 +25,15 @@ app.get('/token', (request, response) => {
     return res.text()
   })
   .then((body) => {
-        let results = JSON.parse(body)
-        var token = results.access_token
+        let results = JSON.parse(body);
+        var token = results.access_token;
         response.send(token) // sends to frontend
       });
   });
 
   app.get('/topPlaylist', (request, response) => {
-    console.log(request.headers.token)
     fetch(
-      `https://api.spotify.com/v1/playlists/4hOKQuZbraPDIfaGbM3lKI/tracks`,
+      `https://api.spotify.com/v1/playlists/4hOKQuZbraPDIfaGbM3lKI/tracks?limit=25`,
       {
         headers: {
           Authorization: `Bearer ${request.headers.token}`
@@ -43,11 +42,40 @@ app.get('/token', (request, response) => {
     ).then(res => {
       return res.text();
     }).then((body) => {
-      let results = JSON.parse(body)
-      response.send(results)
+      let results = JSON.parse(body);
+      parsedData = parseData(results);
+      console.log(parsedData);
+      response.send(parsedData);
     }
   )
 });
+
+const parseData = (results) => {
+  let newData = [];
+  results.items.forEach((item) => {
+    let track = item.track;
+    let artists = "";
+    if (track.artists.length == 1) {
+      artists = track.artists[0];
+    } else {
+      for (let i = 0; i < track.artists.length; i++) {
+        if (i < track.artists.length - 1) {
+          artists += `${track.artists[i].name}/`;
+        } else {
+          artists += artists[i].name;
+        }
+      };
+    }
+    let trackData = {
+      track: track.name,
+      artists: artists,
+      URL: track.external_urls.spotify,
+      album_image: "https://i.scdn.co/image/b923e1b7bb8130e96a0a50d5935c9d35af2b5a9d"
+    };
+    newData.push(trackData)
+  });
+  return newData
+}
   
   app.use(express.static('public'))
   
