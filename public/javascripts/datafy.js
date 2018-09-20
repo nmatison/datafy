@@ -6,7 +6,8 @@ let token;
 document.addEventListener("DOMContentLoaded", () => {
   fetchToken()
   .then((token) => {
-    fetchAlbumImage("60SdxE8apGAxMiRrpbmLY0", token);
+    fetchAlbumImage("60SdxE8apGAxMiRrpbmLY0", token.data)
+    .then((image) => console.log(image.data))
   })
 });
 

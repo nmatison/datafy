@@ -93,7 +93,7 @@ const parsePlaylistData = (results) => {
 }
 
 const getAlbumImage = (results) => {
-  console.log(results)
+  return results.album.images[0].url
 }
   
   app.use(express.static('public'))
