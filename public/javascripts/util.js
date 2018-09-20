@@ -1,36 +1,27 @@
 import axios from "axios";
 
+export const fetchToken = () => (
+  axios.get(`/token`)
+);
+
 export const fetchAlbumImage = (songId, token) => {
+  console.log(songId)
   return axios({
     method: 'get',
     url: '/albumImage',
     headers: {
       songId: songId,
-      token: token
+      token: token.data
     }
   });
 };
 
-// export const 
-
-axios.get(`/token`)
-  .then((response) => {
-    var token = response.data;
-    return token
+export const fetchTopPlaylist = (token) => (
+  axios({
+    method: 'get',
+    url: '/topPlaylist',
+    headers: {
+      token
+    }
   })
-  .then((token) => {
-    console.log(token)
-    axios({
-      method: 'get',
-      url: '/topPlaylist',
-      headers: {
-        token
-      }
-    })
-      .then((response) => {
-        console.log(response)
-      })
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+);

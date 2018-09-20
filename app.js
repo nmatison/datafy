@@ -50,7 +50,7 @@ app.get('/token', (request, response) => {
 });
 
 app.get('/albumImage', (request, response) => {
-  fetch(`https://api.spotify.com/v1/tracks/`, {
+  fetch(`https://api.spotify.com/v1/tracks/${request.headers.songid}`, {
     headers: {
       Authorization: `Bearer ${request.headers.token}`
     }

@@ -1,10 +1,13 @@
-import { fetchAlbumImage }  from "./util";
+import { fetchToken, fetchAlbumImage }  from "./util";
 
 let token;
 
 
 document.addEventListener("DOMContentLoaded", () => {
-  fetchAlbumImage("60SdxE8apGAxMiRrpbmLY0");
+  fetchToken()
+  .then((token) => {
+    fetchAlbumImage("60SdxE8apGAxMiRrpbmLY0", token);
+  })
 });
 
 
