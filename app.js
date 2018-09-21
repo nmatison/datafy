@@ -49,7 +49,7 @@ app.get('/token', (request, response) => {
   )
 });
 
-app.get('/albumImage', (request, response) => {
+app.get('/songInfo', (request, response) => {
   fetch(`https://api.spotify.com/v1/tracks/${request.headers.songid}`, {
     headers: {
       Authorization: `Bearer ${request.headers.token}`
@@ -60,8 +60,8 @@ app.get('/albumImage', (request, response) => {
   })
   .then((body) => {
     let results = JSON.parse(body);
-    let albumImage = getAlbumImage(results);
-    response.send(albumImage);
+    let songInfo = getSongInfo(results);
+    response.send(songInfo);
   })
 })
 
@@ -92,8 +92,15 @@ const parsePlaylistData = (results) => {
   return newData
 }
 
-const getAlbumImage = (results) => {
-  return results.album.images[0].url
+const getSongInfo = (results) => {
+  return {
+    albumImage: results.album.images[1].url,
+    albumName: results.album.name,
+    releaseDate: results.album.release_date,
+    artist: results.album.artists[0].name,
+    explicit: results.explicit,
+    popularity: results.popularity,
+  }
 }
   
   app.use(express.static('public'))

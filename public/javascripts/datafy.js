@@ -1,4 +1,4 @@
-import { fetchToken, fetchAlbumImage }  from "./util";
+import { fetchToken, fetchSongInfo }  from "./util";
 
 
 fetchToken().then(token => {
@@ -10,9 +10,6 @@ fetchToken().then(token => {
   let artistsAndStreams;
   let artistData;
   let node;
-
-
-
 
   let width = 1200
   let height = 650
@@ -103,7 +100,7 @@ fetchToken().then(token => {
     deleteSongCircles()
     let totalStreams = calcStreams(songData);
     let artistSongData = filterSongs(parent);
-    artistSongData = getAlbumImg(artistSongData);
+    getSongInfo(artistSongData);
     calcRadius(artistSongData, totalStreams);
     appendChildren(artistSongData, parent, totalStreams)
     simulation.nodes(artistSongData.concat(artistData, parentData))
@@ -113,7 +110,7 @@ fetchToken().then(token => {
       .alphaTarget(0.01)
       .on("tick", ticked)
     }
-    
+
     function ticked() {
       let circles = svg.selectAll("circle")
       let text = svg.selectAll("text")
@@ -338,13 +335,11 @@ fetchToken().then(token => {
     return artistData;
   }
 
-  function getAlbumImg(songData) {
-    // https://open.spotify.com/track/60SdxE8apGAxMiRrpbmLY0
+  function getSongInfo(songData) {
     for (let i = 0; i < songData.length; i++) {
-      fetchAlbumImage(songData[i].URL.slice(31), authToken)
-      .then((imageURL) => songData[i].img = imageURL.data)
+      fetchSongInfo(songData[i].URL.slice(31), authToken)
+      .then((data) => console.log(data))
     }
-    console.log(songData)
     return songData
   }
 

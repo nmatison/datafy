@@ -4,10 +4,10 @@ export const fetchToken = () => (
   axios.get(`/token`)
 );
 
-export const fetchAlbumImage = (songId, token) => (
+export const fetchSongInfo = (songId, token) => (
   axios({
     method: 'get',
-    url: '/albumImage',
+    url: '/songInfo',
     headers: {
       songId: songId,
       token: token
