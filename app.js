@@ -63,6 +63,9 @@ app.get('/songInfo', (request, response) => {
     let songInfo = getSongInfo(results);
     response.send(songInfo);
   })
+  .catch((err) => {
+    console.log(err);
+  })
 })
 
 const parsePlaylistData = (results) => {

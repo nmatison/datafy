@@ -261,6 +261,7 @@ fetchToken().then(token => {
         var streams = d.Streams
         if (typeof streams === "string") var streams = parseInt(d.Streams)
         node = d3.select(this)
+        updateStats(songData[this.id - 1]);
         svg.selectAll("circle")
           .transition()
           .duration(200)
@@ -347,7 +348,11 @@ fetchToken().then(token => {
 
       })
     }
-    return songData
+    return songData;
+  }
+
+  function updateStats(trackData) {
+    return trackData
   }
 
   
