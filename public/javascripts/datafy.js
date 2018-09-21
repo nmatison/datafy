@@ -112,8 +112,8 @@ fetchToken().then(token => {
       .force("collide", d3.forceCollide(81).strength(0.50))
       .alphaTarget(0.01)
       .on("tick", ticked)
-
-
+    }
+    
     function ticked() {
       let circles = svg.selectAll("circle")
       let text = svg.selectAll("text")
@@ -125,7 +125,6 @@ fetchToken().then(token => {
         .attr("cx", function (d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 125); })
         .attr("cy", function (d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 125); })
     }
-  }
 
   function filterSongs(parent) {
     let result = [];
@@ -162,18 +161,6 @@ fetchToken().then(token => {
         .force("collide", d3.forceCollide(81).strength(0.5))
         .alphaTarget(0.01)
         .on("tick", ticked)
-
-      function ticked() {
-        let circles = svg.selectAll("circle")
-        let text = svg.selectAll("text")
-
-        text
-          .attr('x', function (d) { return d.x; })
-          .attr('y', function (d) { return d.y; })
-        circles
-          .attr("cx", function (d) { return d.x = Math.max(d.radius, Math.min(width - d.radius, d.x), 125); })
-          .attr("cy", function (d) { return d.y = Math.max(d.radius, Math.min(height - d.radius, d.y), 125); })
-      }
     });
   }
 
