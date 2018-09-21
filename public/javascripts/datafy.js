@@ -338,7 +338,14 @@ fetchToken().then(token => {
   function getSongInfo(songData) {
     for (let i = 0; i < songData.length; i++) {
       fetchSongInfo(songData[i].URL.slice(31), authToken)
-      .then((data) => console.log(data))
+      .then((songInfo) => {
+        songData[i].albumImage = songInfo.data.albumImage;
+        songData[i].albumName = songInfo.data.albumName;
+        songData[i].releaseDate = songInfo.data.releaseDate;
+        songData[i].explicit = songInfo.data.explicit;
+        songData[i].popularity = songInfo.data.popularity;
+
+      })
     }
     return songData
   }
