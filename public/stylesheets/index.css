@@ -9,11 +9,18 @@
 }
 
 .container {
-  display: flex;
-  justify-content: center;
-  letter-spacing: 0.25px;
-  color: white;
+  background-color:#1b1f22;
+  border-radius: 5px;
+}
 
+.track-svg-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+}
+
+svg {
+  border-radius: 5px;
 }
 
 .songText {
@@ -26,15 +33,6 @@
 
 .parentText {
   pointer-events: none!important
-}
-
-
-svg {
-  background-color: white;
-  margin-top: 50px;
-  margin-bottom: 100px;
-  border: 1px solid white;
-  border-radius: 5px;
 }
 
 .information {
@@ -54,6 +52,7 @@ svg {
   font-size: 64px;
   font-weight: bold;
   opacity: 0.7;
+  margin-bottom: 20px;
 }
 
 .links-pic {
@@ -62,6 +61,7 @@ svg {
   justify-content: space-between;
   width: 900px;
   margin-right: 15px;
+  margin-top: 20px;
 }
 
 .links-pic a {
