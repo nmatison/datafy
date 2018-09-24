@@ -352,10 +352,11 @@ fetchToken().then(token => {
   }
 
   function updateStats(trackData) {
+    if (!trackData.albumImage) return null;
     console.log(trackData.albumImage)
     let wholeDiv = document.querySelector(".track-info")
     wholeDiv.innerHTML = ""
-    wholeDiv.innerHTML += `<img class="album-image" href="${trackData.albumImage}" alt="album-image">`;
+    wholeDiv.innerHTML += `<img class="album-image" src="${trackData.albumImage}" alt="album-image">`;
     wholeDiv.innerHTML += `<div class="track"></div>`
 
    let div = document.querySelector(".track")
@@ -372,7 +373,7 @@ fetchToken().then(token => {
     div.innerHTML += `<p>${trackData.releaseDate}</p>`;
     div.innerHTML += `<br>`;
     div.innerHTML += "<h1>Popularity:</h1>";
-    div.innerHTML += `<p>${trackData.popularity}</p>`;
+    div.innerHTML += `<p>${trackData.popularity}/100</p>`;
   }
 
   
