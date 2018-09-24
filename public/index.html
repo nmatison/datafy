@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="./stylesheets/reset.css"></link>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/index.css"></link>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <meta charset="utf-8">
+    <title>Datafy</title>
+  </head>
+  <body>
+    <div class="outer">
+      <div class="information">
+        <h1 class="title">Datafy</h1>
+        <p class="description">Datafy is a data visualization project that takes
+          weekly Spotify data from the most recent six months and displays it
+        as an interactive form. You can click on a circle to expand it
+        and reveal more information about the corresponding week. *NOTE*
+        clicking on a yellow song circle will redirect you to Spotify!</p>
+      </div>
+      <div class="track-svg-container">
+        <div class="track-info">
+          <img class="album-image" src="./images/icons8-music-folder-100.png" alt="default-logo">
+          <div class="track">
+            <h1>Track Title:</h1>
+            <p>Select A Track For More Info</p>
+            <br>
+            <h1>Artist(s):</h1>
+            <p>Select A Track For More Info</p>
+            <br>
+            <h1>Album:</h1>
+            <p>Select A Track For More Info</p>
+            <br>
+            <h1>Release Date:</h1>
+            <p>Select A Track For More Info</p>
+            <br>
+            <h1>Popularity:</h1>
+            <p>Select A Track For More Info</p>
+          </div>
+        </div>
+          <div class="container">
+          </div>
+      </div>
+      <div class="links-pic">
+        <p class="links"> All information regarding Spotify data from:
+          <a
+          href="https://spotifycharts.com/regional/"
+          target="_blank">
+            Spotify Charts</a> and Spotify' API.</p>
+        <a href="https://github.com/nmatison/datafy" target="_blank">
+          <img class="github" src="./images/github.jpg"
+          alt="https://github.com/nmatison/datafy"/>
+        </a>
+      </div>
+    </div>
+  </body>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+  <script type="text/javascript" src="./bundle.js"></script>
+</html>
