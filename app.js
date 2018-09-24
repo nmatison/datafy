@@ -5,6 +5,7 @@ const path = require('path')
 const fetch = require('node-fetch')
 const PORT = process.env.PORT || 8000; // process.env accesses heroku's environment variables
 const formurlencoded = require("form-urlencoded").default;
+const spotifyToken = require("./config/keys").token
 
 // create route to get single book by its isbn
 app.get('/token', (request, response) => {
@@ -17,7 +18,7 @@ app.get('/token', (request, response) => {
     mode: "no-cors",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "Authorization": "Basic OWJiZmU1NDY2YmNmNDBmMWFjZTA5ZDE1NjQyODIyNGM6ZjhlYzBiNTZjMjQwNDc5NDk4ZjBjMzQ0NjA1MTc3MGE="
+      "Authorization": `${spotifyToken}`
     },
     body: data
   })
