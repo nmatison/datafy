@@ -12,7 +12,7 @@ fetchToken().then(token => {
   let node;
 
   let width = 1000
-  let height = 650
+  let height = 625
 
 
   simulation = d3.forceSimulation()

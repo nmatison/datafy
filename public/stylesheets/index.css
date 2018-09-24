@@ -19,6 +19,16 @@
   opacity: 0.9;
   margin-right: 20px;
   border-radius: 5px;
+  height: 450px;
+  align-self: center;
+}
+
+.track-info h1{
+  color: #d968d6;
+}
+
+.track-info p {
+  color: #ffe030
 }
 
 .album-image {
