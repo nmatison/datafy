@@ -11,7 +11,7 @@ fetchToken().then(token => {
   let artistData;
   let node;
 
-  let width = 1200
+  let width = 1000
   let height = 650
 
 
@@ -44,11 +44,11 @@ fetchToken().then(token => {
       .on('mouseover', enlarge)
       .on('mouseout', normalize)
 
-    let textCircles = svg.selectAll(".parentText")
+    let textCircles = svg.selectAll(".parent-text")
       .data(data)
       .enter()
       .append("text")
-      .attr("class", "parentText")
+      .attr("class", "parent-text")
       .attr("x", function (d) { return d.x_axis; })
       .attr("y", function (d) { return d.y_axis; })
       .text(function (d) { return d.text })
@@ -266,7 +266,7 @@ fetchToken().then(token => {
           .transition()
           .duration(200)
           .style("opacity", 0.5)
-        svg.selectAll(".parentText")
+        svg.selectAll(".parent-text")
           .transition()
           .duration(200)
           .style("opacity", 0.5)
@@ -278,7 +278,7 @@ fetchToken().then(token => {
           .style("cursor", "pointer")
         d3.select(".svg")
           .append("text")
-          .attr("class", `${type}Text`)
+          .attr("class", `${type}-text`)
           .data(node.data())
           .attr("text-anchor", "middle")
           .attr("alignment-baseline", "ideographic")
@@ -289,7 +289,7 @@ fetchToken().then(token => {
           .attr("")
         d3.select(".svg")
           .append("text")
-          .attr("class", `${type}Text`)
+          .attr("class", `${type}-text`)
           .data(node.data())
           .attr("text-anchor", "middle")
           .attr("alignment-baseline", "hanging")
@@ -320,7 +320,7 @@ fetchToken().then(token => {
           .transition()
           .duration(200)
           .style("opacity", 1.0)
-        svg.selectAll(`.${type}Text`).remove()
+        svg.selectAll(`.${type}-text`).remove()
       })
   }
 

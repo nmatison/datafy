@@ -1,16 +1,11 @@
-.outter {
+.outer {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
   width: 100%;
   height: 1000px;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.container {
-  background-color:#1b1f22;
-  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
 }
 
 .track-svg-container {
@@ -19,25 +14,43 @@
   margin-top: 40px;
 }
 
+.track-info {
+  background-color: #1b1f22;
+  opacity: 0.9;
+  margin-right: 20px;
+  border-radius: 5px;
+}
+
+.album-image {
+  width: 200px;
+  height: 200px;
+}
+
+.container {
+  background-color: #1b1f22;
+  opacity: 0.9;
+  border-radius: 5px;
+}
+
 svg {
   border-radius: 5px;
 }
 
-.songText {
-  pointer-events: none!important;
+.song-text {
+  pointer-events: none !important;
 }
 
-.artistText {
-  pointer-events: none!important
+.artist-text {
+  pointer-events: none !important;
 }
 
-.parentText {
-  pointer-events: none!important
+.parent-text {
+  pointer-events: none !important;
 }
 
 .information {
   display: flex;
-  width: 925px;;
+  width: 925px;
   margin-top: 50px;
   justify-content: space-between;
 }
@@ -68,7 +81,6 @@ svg {
   width: 20%;
   height: 15%;
 }
-
 
 .github {
   width: 100%;
