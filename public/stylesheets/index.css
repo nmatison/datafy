@@ -15,12 +15,21 @@
 }
 
 .track-info {
+  display: flex;
+  flex-direction: column;
   background-color: #1b1f22;
   opacity: 0.9;
   margin-right: 20px;
   border-radius: 5px;
-  height: 450px;
+  height: 475px;
   align-self: center;
+  width: 235px;
+  
+}
+
+.track {
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
 .track-info h1{
@@ -34,6 +43,9 @@
 .album-image {
   width: 200px;
   height: 200px;
+ align-self: center;
+ margin-top: 15px;
+ margin-bottom: 15px;
 }
 
 .container {
