@@ -261,7 +261,7 @@ fetchToken().then(token => {
         var streams = d.Streams
         if (typeof streams === "string") var streams = parseInt(d.Streams)
         node = d3.select(this)
-        updateStats(songData[this.id - 1]);
+        if (className === "songCircle") updateStats(songData[this.id - 1]);
         svg.selectAll("circle")
           .transition()
           .duration(200)
@@ -353,14 +353,14 @@ fetchToken().then(token => {
 
   function updateStats(trackData) {
     if (!trackData.albumImage) return null;
-    console.log(trackData.albumImage)
-    let wholeDiv = document.querySelector(".track-info")
-    wholeDiv.innerHTML = ""
+    console.log(trackData.albumImage);
+    let wholeDiv = document.querySelector(".track-info");
+    wholeDiv.innerHTML = "";
     wholeDiv.innerHTML += `<img class="album-image" src="${trackData.albumImage}" alt="album-image">`;
-    wholeDiv.innerHTML += `<div class="track"></div>`
+    wholeDiv.innerHTML += `<div class="track"></div>`;
 
-   let div = document.querySelector(".track")
-    div.innerHTML = ""
+   let div = document.querySelector(".track");
+    div.innerHTML = "";
     div.innerHTML += "<h1>Track Title:</h1>";
     div.innerHTML += `<p>${trackData.Track}</p>`;
     div.innerHTML += `<br>`;
