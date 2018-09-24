@@ -14,6 +14,7 @@
   "scripts": {
     "build": "webpack --watch",
     "start": "node app.js",
+    "heroku-postbuild": "webpack --watch",
     "start:debug": "DEBUG=* node app.js"
   },
   "dependencies": {
