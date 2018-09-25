@@ -4,7 +4,7 @@
 
 ## Background
 
-Datafy is a data visualization project that takes weekly Spotify data from the most recent six months, and display it as an interactive form using `Javascript` and the `d3.js` library.
+Datafy is a data visualization project that takes weekly Spotify data from the most recent six months, and display it as an interactive form using `Javascript` and the `d3.js` library. It fetches data from Spotify's api using a Node.js and Express.js back-end.
 
 
 ## Features
