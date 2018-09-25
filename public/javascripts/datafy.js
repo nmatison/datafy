@@ -17,7 +17,7 @@ fetchToken().then(token => {
 
   simulation = d3.forceSimulation()
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("charge", d3.forceManyBody().strength(-20))
+    .force("charge", d3.forceManyBody().strength(-25))
     .force("collide", d3.forceCollide(70).strength(0.50))
     .alphaTarget(0.01)
 
@@ -105,8 +105,8 @@ fetchToken().then(token => {
     appendChildren(artistSongData, parent, totalStreams)
     simulation.nodes(artistSongData.concat(artistData, parentData))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("charge", d3.forceManyBody().strength(-20))
-      .force("collide", d3.forceCollide(81).strength(0.50))
+      .force("charge", d3.forceManyBody().strength(-25))
+      .force("collide", d3.forceCollide(70).strength(0.50))
       .alphaTarget(0.01)
       .on("tick", ticked)
     }
@@ -154,8 +154,8 @@ fetchToken().then(token => {
 
       simulation.nodes(artistData.concat(parentData))
         .force("center", d3.forceCenter(width / 2, height / 2))
-        .force("charge", d3.forceManyBody().strength(-20))
-        .force("collide", d3.forceCollide(81).strength(0.5))
+        .force("charge", d3.forceManyBody().strength(-25))
+        .force("collide", d3.forceCollide(75).strength(0.5))
         .alphaTarget(0.01)
         .on("tick", ticked)
     });
@@ -181,19 +181,19 @@ fetchToken().then(token => {
       for (var i = 0; i < data.length; i++) {
         let percent = (parseInt(data[i].Streams) / totalStreams)
         if (percent < 0.020) {
-          radius = percent * 900
+          radius = percent * 825
           data[i].radius = radius
           continue
         } else if (percent < 0.040) {
-          radius = percent * 900
+          radius = percent * 825
           data[i].radius = radius
           continue
         } else if (percent < 0.060) {
-          radius = Math.min(percent * 900, 82)
+          radius = Math.min(percent * 825, 82)
           data[i].radius = radius
           continue
         } else {
-          radius = Math.min(percent * 900, 107)
+          radius = Math.min(percent * 825, 107)
           data[i].radius = radius
           continue
         }
@@ -274,7 +274,7 @@ fetchToken().then(token => {
           .transition()
           .duration(200)
           .style("opacity", 1.0)
-          .attr("r", 125)
+          .attr("r", 120)
           .style("cursor", "pointer")
         d3.select(".svg")
           .append("text")
