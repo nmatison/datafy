@@ -24,7 +24,6 @@
   height: 475px;
   align-self: center;
   width: 235px;
-  
 }
 
 .track {
@@ -52,6 +51,8 @@
   background-color: #1b1f22;
   opacity: 0.9;
   border-radius: 5px;
+  width: 1000px;
+  height: 625px;
 }
 
 svg {

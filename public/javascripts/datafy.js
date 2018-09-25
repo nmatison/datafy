@@ -11,15 +11,15 @@ fetchToken().then(token => {
   let artistData;
   let node;
 
-  let width = 1000
-  let height = 625
+  let width = 1000;
+  let height = 625;
 
 
   simulation = d3.forceSimulation()
     .force("center", d3.forceCenter(width / 2, height / 2))
     .force("charge", d3.forceManyBody().strength(-25))
     .force("collide", d3.forceCollide(70).strength(0.50))
-    .alphaTarget(0.01)
+    .alphaTarget(0.01);
 
   let svg = d3.select(".container")
     .append("svg")
@@ -27,10 +27,10 @@ fetchToken().then(token => {
     .attr("height", height)
     .append("g")
     .attr("transform", "translate(0,0)")
-    .attr("class", "svg")
+    .attr("class", "svg");
 
   d3.csv("../data/parent-nodes.csv").then(function (data) {
-    parentData = data
+    parentData = data;
     let parentCircles = svg.selectAll("circle")
       .data(parentData)
       .enter()
@@ -42,7 +42,7 @@ fetchToken().then(token => {
       .attr("id", function (d) { return d.id; })
       .style("fill", function (d) { return d.color; })
       .on('mouseover', enlarge)
-      .on('mouseout', normalize)
+      .on('mouseout', normalize);
 
     let textCircles = svg.selectAll(".parent-text")
       .data(data)
@@ -58,9 +58,10 @@ fetchToken().then(token => {
       .attr("text-anchor", "middle")
       .attr("text-anchor", "middle")
       .attr("letter-spacing", "0.5")
-      .attr("font-weight", "bold")
+      .attr("font-weight", "bold");
+
     simulation.nodes(parentData)
-      .on("tick", ticked)
+      .on("tick", ticked);
 
     function ticked() {
       parentCircles
@@ -69,7 +70,7 @@ fetchToken().then(token => {
       textCircles
         .attr('x', function (d) { return d.x; })
         .attr('y', function (d) { return d.y; })
-    }
+    };
 
     svg.selectAll("circle")
       .on("click", function (d) {
@@ -83,8 +84,8 @@ fetchToken().then(token => {
         .duration(200)
         .attr('stroke', d.color.darker)
         .attr('r', function (d) { return (d.radius * 1.1) })
-        .style("cursor", "pointer")
-    }
+        .style("cursor", "pointer");
+    };
 
     function normalize(d) {
       d3.select(this)
@@ -181,19 +182,19 @@ fetchToken().then(token => {
       for (var i = 0; i < data.length; i++) {
         let percent = (parseInt(data[i].Streams) / totalStreams)
         if (percent < 0.020) {
-          radius = percent * 825
+          radius = percent * 775
           data[i].radius = radius
           continue
         } else if (percent < 0.040) {
-          radius = percent * 825
+          radius = percent * 775
           data[i].radius = radius
           continue
         } else if (percent < 0.060) {
-          radius = Math.min(percent * 825, 82)
+          radius = Math.min(percent * 775, 82)
           data[i].radius = radius
           continue
         } else {
-          radius = Math.min(percent * 825, 107)
+          radius = Math.min(percent * 775, 107)
           data[i].radius = radius
           continue
         }
