@@ -353,7 +353,6 @@ fetchToken().then(token => {
 
   function updateStats(trackData) {
     if (!trackData.albumImage) return null;
-    console.log(trackData.albumImage);
     let wholeDiv = document.querySelector(".track-info");
     wholeDiv.innerHTML = "";
     wholeDiv.innerHTML += `<img class="album-image" src="${trackData.albumImage}" alt="album-image">`;
