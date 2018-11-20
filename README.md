@@ -1,6 +1,6 @@
 # datafy
 
-[Live Link](https://nmatison.github.io/datafy/)
+[Live Link](https://datafy.herokuapp.com/)
 
 ## Background
 
